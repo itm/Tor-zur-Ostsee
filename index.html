@@ -14,7 +14,7 @@
 <script type="text/javascript">
   $(function(){
   
-    var latlng = new google.maps.LatLng(53.8706, 10.6898);
+    var latlng = new google.maps.LatLng(53.890582,10.701184);
     var myOptions = {
       zoom: 14,
       center: latlng,
@@ -41,19 +41,20 @@
     	}
     	$(elems[i]).trigger("click");
     };
-		var myTimer = window.setInterval(changeCenter, 5000);
+		var myTimer = window.setInterval(changeCenter, 10000);
   });
 
 </script>
 </head>
 	<div id="radio">
 		<form>
-			<input type="radio" id="radio2" name="radio" data-lat="53.8706" data-long="10.6898" data-zoom="14" checked="checked" /><label for="radio2">Innenstadt</label>
+			<input type="radio" id="radio2" name="radio" data-lat="53.890582" data-long="10.701184" data-zoom="14" checked="checked" /><label for="radio2">Innenstadt</label>
 			<input type="radio" id="radio5" name="radio" data-lat="53.9199" data-long="10.825" data-zoom="11" /><label for="radio5">Mitte</label>
-			<input type="radio" id="radio3" name="radio" data-lat="53.8882" data-long="10.7535" data-zoom="13" /><label for="radio3">Dazwischen</label>
+			<input type="radio" id="radio3" name="radio" data-lat="53.895539" data-long="10.796957" data-zoom="14" /><label for="radio3">Seelandkai &amp; Schlutup</label>
 			<input type="radio" id="radio4" name="radio" data-lat="53.9199" data-long="10.825" data-zoom="11" /><label for="radio4">Mitte</label>
-			<input type="radio" id="radio1" name="radio" data-lat="53.9100" data-long="10.943" data-zoom="12"/><label for="radio1">Travem&uuml;nde</label>
+			<input type="radio" id="radio1" name="radio" data-lat="53.957146" data-long="10.864348" data-zoom="14"/><label for="radio1">Travem&uuml;nde</label>
 			<input type="radio" id="radio6" name="radio" data-lat="53.9199" data-long="10.825" data-zoom="11" /><label for="radio6">Mitte</label>
+			<input type="radio" id="radio7" name="radio" data-lat="54.058985" data-long="10.931282" data-zoom="11" /><label for="radio7">L&uuml;becker Bucht</label>
 		</form>
 	</div>
 
