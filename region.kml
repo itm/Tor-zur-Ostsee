@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>TraDav.kml</name>
+	<Style id="regionStyle">
+		<LineStyle>
+			<color>c8ff0000</color>
+			<width>4</width>
+		</LineStyle>
+		<PolyStyle>
+			<color>80ff0000</color>
+		</PolyStyle>
+	</Style>
+	<Placemark>
+		<name>TraDav</name>
+		<styleUrl>#regionStyle</styleUrl>
+		<Polygon>
+			<outerBoundaryIs>
+				<LinearRing>
+					<coordinates>
+10.63190793124199,53.89560485000499,0 10.69525972218826,53.82909264205652,0 10.96391657022927,53.94126811507879,0 10.8906987574974,53.99425417226296,0 10.63190793124199,53.89560485000499,0 </coordinates>
+				</LinearRing>
+			</outerBoundaryIs>
+		</Polygon>
+	</Placemark>
+</Document>
+</kml>
