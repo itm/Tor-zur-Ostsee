@@ -35,7 +35,7 @@
       mapTypeId: google.maps.MapTypeId.TERRAIN
     };
     var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-    var kml = new google.maps.KmlLayer('http://itm.github.com/Tor-zur-Ostsee/region.kml', {map: map});
+    var kml = new google.maps.KmlLayer('http://itm.github.com/Tor-zur-Ostsee/region.kml');
     var infowindow = new google.maps.InfoWindow({
 				content: "Oi"
 		});
@@ -82,19 +82,14 @@
 			uncheckedLabel: 'Off',
 			onChange: function(elem, value) { 
       	window.clearInterval(myTimer);
-      	kml.setMap(null);
+      	kml.setMap(map);
 				if ( $(elem).attr('checked') ) {
 					myTimer = window.setInterval(changeCenter, 10000);
-					kml.setMap(map);
+					kml.setMap(null);
 				}
 			}
     });
 		
-		$("input#on_off").change(function(event){
-			window.clearInterval(myTimer);
-			if ( ! $(event.target).attr('checked') )
-				myTimer = window.setInterval(changeCenter, 10000);
-		});
   });
 
 </script>
