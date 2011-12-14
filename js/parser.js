@@ -5,7 +5,11 @@ var downloadXml = function(url, callback) {
       type: "GET",
 			url: url,
 			dataType: "xml",
-			success: callback
+			success: callback,
+			error:function (xhr, ajaxOptions, thrownError){
+                    alert("failed to retrieve data.xml\n" +xhr.responseText+"\n " +ajaxOptions+"\n "+thrownError);
+                  
+                }    
 	});	
 }
 

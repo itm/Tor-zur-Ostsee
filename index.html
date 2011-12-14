@@ -24,8 +24,28 @@
 			});
 			markersArray.push(marker);
 			return marker;
-		}
+	};
 
+    function createMarkerContent(vesselinfo){
+       	content = "<dl>"+
+    	"<dt>Name</dt>"+
+    	"<dd>"+vesselinfo.name+"</dd>"+
+    	"<dt>Schiffstyp</dt>"+
+    	"<dd>"+vesselinfo.type+"</dd>"+
+    	"<dt>Nationalit&auml;t</dt>"+
+    	"<dd>"+ "<img src='http://images.vesseltracker.com/images/flags/"+ vesselinfo.flagid +".png'/>" + vesselinfo.nationality+"</dd>"+
+    	"<dt>Status</dt>"+
+    	"<dd>"+vesselinfo.status+"</dd>"+
+    	"<dt>Geschwindigkeit/Kurs</dt>"+
+    	"<dd>"+vesselinfo.speed+"/"+vesselinfo.course+"</dd>"+
+    	//"<dt>Tiefgang</dt>"+
+    	//"<dd>"+vesselinfo.
+    	"</dl>"+
+    	"<img  border='0' src='http://images.vesseltracker.com/images/vessels/thumbnails/" + vesselinfo.pic +".jpg'/>";
+    	console.log(content);
+    	return content;
+    };
+//http://images.vesseltracker.com/images/flags/221.png
   $(function(){
   
     var latlng = new google.maps.LatLng(53.890582,10.701184);
@@ -50,14 +70,13 @@
     	map.panTo(new google.maps.LatLng(lat,lon));
     	map.setZoom(zom);
     });
-    
     downloadXml("data.xml", function(data) {
     	var vessels = parseXml(data);
     	$(vessels).each( function() {
     			marker = addMarker(new google.maps.LatLng(this.lat, this.lon), map);
     			marker.vessel = this;
     			google.maps.event.addListener(marker, 'click', function() {
-						content = "<img  border='0' src='http://images.vesseltracker.com/images/vessels/thumbnails/" + this.vessel.pic +".jpg'/>"
+						content = createMarkerContent(this.vessel);
 						infowindow.setContent(content);
 						infowindow.open(map, this);
 					});
@@ -96,7 +115,7 @@
 </head>
 	<div id="radio">
 		<form>
-			<input type="radio" id="radio2" name="radio" data-lat="53.890582" data-long="10.701184" data-zoom="14" checked="checked" /><label for="radio2">Innenstadt</label>
+			<input type="radio" id="radio2" name="radio" data-lat="53.890582" data-long="10.701184" data-zoom="13" checked="checked" /><label for="radio2">Innenstadt</label>
 			<input type="radio" id="radio5" name="radio" data-lat="53.9199" data-long="10.825" data-zoom="11" />
 			<input type="radio" id="radio3" name="radio" data-lat="53.895539" data-long="10.796957" data-zoom="14" /><label for="radio3">Seelandkai &amp; Schlutup</label>
 			<input type="radio" id="radio4" name="radio" data-lat="53.9199" data-long="10.825" data-zoom="11" />
