@@ -14,6 +14,7 @@
 <!-- own programs -->
 <script src="js/correspondences.js" type="text/javascript"></script>
 <script src="js/parser.js" type="text/javascript"></script>
+<script src="js/ais-formatter.js" type="text/javascript"></script>
 <script type="text/javascript">
 	
 	var markersArray = [];
@@ -57,26 +58,24 @@
     	"<dt>Name</dt>"+
     	"<dd>"+cnvrt2Upper(vesselinfo.name)+"</dd>"+
     	"<dt>Schiffstyp</dt>"+
-    	"<dd>"+vesselinfo.type+"</dd>"+
+    	"<dd>"+translate(vesselinfo.type)+"</dd>"+
     	"<dt>Flagge</dt>"+
     	"<dd>"+ "<img src='http://images.vesseltracker.com/images/flags/"+ vesselinfo.flagid +".png'/> " + vesselinfo.nationality+"</dd>"+
     	"<dt>L&auml;nge x Breite</dt>"+
     	"<dd>"+ Math.round(vesselinfo.length) + "m x " + Math.round(vesselinfo.width)+"m</dd>"+
     	"<dt>Status</dt>"+
-    	"<dd>"+vesselinfo.status+"</dd>"+
+    	"<dd>"+translate(vesselinfo.status)+"</dd>"+
     	"<dt>Geschwindigkeit</dt>"+
     	"<dd>"+vesselinfo.speed+"kn</dd>"+
     	"<dt>Kurs / Richtung</dt>"+
     	"<dd>"+vesselinfo.course+"&deg; / "+ direction[vesselinfo.icon]+"</dd>"+
-    	//"<dt>Tiefgang</dt>"+
-    	//"<dd>"+vesselinfo.
     	"</dl>"+
     	"</div>"
     	
     	console.log(content);
     	return content;
     };
-//http://images.vesseltracker.com/images/flags/221.png
+
   $(function(){
   
     var latlng = new google.maps.LatLng(53.890582,10.701184);
