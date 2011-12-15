@@ -25,23 +25,36 @@
 			markersArray.push(marker);
 			return marker;
 	};
+	
+	function cnvrt2Upper(str) {
+        return str.toLowerCase().replace(/\b[a-z]/g, cnvrt);
+        function cnvrt() {
+            return arguments[0].toUpperCase();
+        }
+    }
 
     function createMarkerContent(vesselinfo){
-       	content = "<dl>"+
+       	content = 
+       	"<div class='container'>"+
+       	"<img  id='zentriert' border='0' src='http://images.vesseltracker.com/images/vessels/thumbnails/" + vesselinfo.pic +".jpg'/>"+
+       	"<dl class='table-display'>"+
     	"<dt>Name</dt>"+
-    	"<dd>"+vesselinfo.name+"</dd>"+
+    	"<dd>"+cnvrt2Upper(vesselinfo.name)+"</dd>"+
     	"<dt>Schiffstyp</dt>"+
     	"<dd>"+vesselinfo.type+"</dd>"+
-    	"<dt>Nationalit&auml;t</dt>"+
-    	"<dd>"+ "<img src='http://images.vesseltracker.com/images/flags/"+ vesselinfo.flagid +".png'/>" + vesselinfo.nationality+"</dd>"+
+    	"<dt>Flagge</dt>"+
+    	"<dd>"+ "<img src='http://images.vesseltracker.com/images/flags/"+ vesselinfo.flagid +".png'/> " + vesselinfo.nationality+"</dd>"+
     	"<dt>Status</dt>"+
     	"<dd>"+vesselinfo.status+"</dd>"+
-    	"<dt>Geschwindigkeit/Kurs</dt>"+
-    	"<dd>"+vesselinfo.speed+"/"+vesselinfo.course+"</dd>"+
+    	"<dt>Geschwindigkeit</dt>"+
+    	"<dd>"+vesselinfo.speed+"</dd>"+
+    	"<dt>Kurs</dt>"+
+    	"<dd>"+vesselinfo.course+"</dd>"+
     	//"<dt>Tiefgang</dt>"+
     	//"<dd>"+vesselinfo.
     	"</dl>"+
-    	"<img  border='0' src='http://images.vesseltracker.com/images/vessels/thumbnails/" + vesselinfo.pic +".jpg'/>";
+    	"</div>"
+    	
     	console.log(content);
     	return content;
     };

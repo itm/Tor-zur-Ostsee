@@ -10,3 +10,48 @@ form {
 	padding: 5px;
 	background-color: #464646;
 }
+
+div dt { font-family: sans-serif}
+div dd { font-family: sans-serif}
+
+div dl.table-display
+{
+	float: right;
+	width: 500px;
+	margin: 1em 0;
+	padding: 0;
+    border-bottom: 1px solid #999;
+    border-top: 1px solid #999;   
+}
+
+.table-display dt
+{
+	clear: left;
+	float: left;
+	width: 150px;
+	margin: 0;
+	padding: 3px;
+	/* border-top: 1px solid #999; */
+	font-weight: bold;
+}
+
+.table-display dd
+{
+	float: left;
+	width: 300px;
+	margin: 0;
+	padding: 3px;
+	/* border-top: 1px solid #999; */
+}
+
+div.container {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#zentriert {
+  position:absolute;
+  top:30px; 
+  right:20px 
+  
+}
