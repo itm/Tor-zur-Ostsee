@@ -49,12 +49,16 @@
 				$("#radio form").buttonset();
 				var elems = $("#radio input[type=radio]");
 				elems.click(function(ev) {
-					var lat = parseFloat($(ev.target).data("lat"));
-					var lon = parseFloat($(ev.target).data("long"));
-					var zom = parseInt($(ev.target).data("zoom"));
-					map.panTo(new google.maps.LatLng(lat, lon));
-					map.setZoom(zom);
+					var lat_sw = parseFloat($(ev.target).data("lat-sw"));
+					var lon_sw = parseFloat($(ev.target).data("long-sw"));
+					var lat_ne = parseFloat($(ev.target).data("lat-ne"));
+					var lon_ne = parseFloat($(ev.target).data("long-ne"));
+					var sw = new google.maps.LatLng(lat_sw, lon_sw);
+					var ne = new google.maps.LatLng(lat_ne, lon_ne);
+					var bounds = new google.maps.LatLngBounds(sw, ne);
+					map.fitBounds(bounds);
 				});
+				
 				downloadXml("data.xml", function(data) {
 					var vessels = parseXml(data);
 					$(vessels).each(function() {
@@ -98,21 +102,35 @@
 	</head>
 	<div id="radio">
 		<form>
-			<input type="radio" id="radio1" name="radio" data-lat="53.890582" data-long="10.701184" data-zoom="13" checked="checked" />
+			<input type="radio" id="radio1" name="radio" checked="checked"
+				data-lat-sw="53.854349" data-long-sw="10.647726" 
+				data-lat-ne="53.878946" data-long-ne="10.732956" 
+			/>
 			<label for="radio1">Altstadt</label>
-			
-			<input type="radio" id="radio2" name="radio" data-lat="53.895539" data-long="10.796957" data-zoom="14" />
+
+			<input type="radio" id="radio2" name="radio"
+				data-lat-sw="53.887952" data-long-sw="10.734844" 
+				data-lat-ne="53.908484" data-long-ne="10.833721" 
+			/>
 			<label for="radio2">Lehmannkai, Seelandkai, Terminal Schlutup</label>
 			
-			<input type="radio" id="radio3" name="radio" data-lat="53.9199" data-long="10.825" data-zoom="11" />
+			<input type="radio" id="radio3" name="radio"
+				data-lat-sw="53.878643" data-long-sw="10.647297" 
+				data-lat-ne="53.900596" data-long-ne="10.735517" 
+			/>
 			<label for="radio3">Konstinkai, Nordlandkai</label>
 			
-			<input type="radio" id="radio4" name="radio" data-lat="53.957146" data-long="10.864348" data-zoom="14"/>
+			<input type="radio" id="radio4" name="radio"
+				data-lat-sw="53.936132" data-long-sw="10.838563" 
+				data-lat-ne="53.950227" data-long-ne="10.877616" 
+			/>
 			<label for="radio4">Skandinavienkai</label>
 			
-			<input type="radio" id="radio5" name="radio" data-lat="53.9199" data-long="10.825" data-zoom="11" />
+			<input type="radio" id="radio5" name="radio"
+				data-lat-sw="53.954621" data-long-sw="10.859027" 
+				data-lat-ne="53.954621" data-long-ne="10.859027" 
+			/>
 			<label for="radio5">Travem&uuml;nde</label>
-			
 			
 		</form>
 		<div style="position:absolute; right:10px; top:11px;">
