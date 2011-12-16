@@ -18,12 +18,14 @@ var translate = function(ais_description) {
 	translations["tugboats"] = "Schlepper";
 	translations["anti-pollution\_vessels"] = "Schadstoffbek&auml;mpfung";
 
-	var translation = ais_description;
+	return translations[ais_description];
+}
 
-	for(aisName in translations) {
-		translation = translation.replace(aisName, translations[aisName]);
+var cnvrt2Upper = function (str) {
+	return str.toLowerCase().replace(/\b[a-z]/g, cnvrt);
+	function cnvrt() {
+		return arguments[0].toUpperCase();
 	}
-	return translation;
 }
 
 var createMarkerContent = function(vesselinfo) {
@@ -40,14 +42,12 @@ var createMarkerContent = function(vesselinfo) {
 	direction["5"] = "unbekannt";
 	content = 
        	"<div class='container'>"+
-       	"<img  id='zentriert' border='0' src='http://images.vesseltracker.com/images/vessels/thumbnails/" + vesselinfo.pic +".jpg'/>"+
+       	"<div class='flag'>"+
+		"<img src='http://images.vesseltracker.com/images/flags/"+ vesselinfo.flagid +".png'/> "+
+		"</div>" +      	
+       	" <div class='vesselname'>"+ cnvrt2Upper(vesselinfo.name)+ "</div>" + translate(vesselinfo.type) +       	
        	"<dl class='table-display'>"+
-    	"<dt>Name</dt>"+
-    	"<dd>"+cnvrt2Upper(vesselinfo.name)+"</dd>"+
-    	"<dt>Schiffstyp</dt>"+
-    	"<dd>"+translate(vesselinfo.type)+"</dd>"+
-    	"<dt>Flagge</dt>"+
-    	"<dd>"+ "<img src='http://images.vesseltracker.com/images/flags/"+ vesselinfo.flagid +".png'/> " + vesselinfo.nationality+"</dd>"+
+       	"<img  id='zentriert' border='0' src='http://images.vesseltracker.com/images/vessels/thumbnails/" + vesselinfo.pic +".jpg'/>"+
     	"<dt>L&auml;nge x Breite</dt>"+
     	"<dd>"+ Math.round(vesselinfo.length) + "m x " + Math.round(vesselinfo.width)+"m</dd>"+
     	"<dt>Status</dt>"+
@@ -56,6 +56,10 @@ var createMarkerContent = function(vesselinfo) {
     	"<dd>"+vesselinfo.speed+"kn</dd>"+
     	"<dt>Kurs / Richtung</dt>"+
     	"<dd>"+vesselinfo.course+"&deg; / "+ direction[vesselinfo.icon]+"</dd>"+
+    	"<dt>Tiefgang</dt>"+
+    	"<dd>[TODO]</dd>"+
+    	"<dt>Zielhafen</dt>"+
+    	"<dd>TODO</dd>"+
     	"</dl>"+
     	"</div>"
 
