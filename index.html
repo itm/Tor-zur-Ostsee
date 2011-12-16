@@ -27,21 +27,24 @@
 				return marker;
 			};
 
+
 			$(function() {
 
-				var latlng = new google.maps.LatLng(53.890582, 10.701184);
 				var myOptions = {
 					zoom : 14,
-					center : latlng,
+					center : new google.maps.LatLng(53.890582, 10.701184),
 					mapTypeId : google.maps.MapTypeId.TERRAIN,
-					disableDefaultUI: true,
-
+					disableDefaultUI: true
 				};
 				var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 				var kml = new google.maps.KmlLayer('http://itm.github.com/Tor-zur-Ostsee/region.kml');
 				var infowindow = new google.maps.InfoWindow({
 					content : "Oi"
 				});
+				
+				var logoDiv = document.createElement('DIV');
+				$(logoDiv).html('<img alt="logo" src="img/logo.png" />');
+				map.controls[google.maps.ControlPosition.TOP_LEFT].push(logoDiv);
 
 				$("#radio form").buttonset();
 				var elems = $("#radio input[type=radio]");
