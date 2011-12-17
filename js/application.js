@@ -4,7 +4,8 @@ var markersArray = [];
 function addMarker(location, map) {
 	var marker = new google.maps.Marker({
 		position : location,
-		map : map
+		map : map,
+		icon: 'img/boat.png'
 	});
 	markersArray.push(marker);
 	return marker;
