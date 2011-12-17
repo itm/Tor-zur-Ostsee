@@ -67,10 +67,23 @@
 			<input type="checkbox" id="on_off"/>
 		</div>
 		<div style="position:absolute; right:128px; top:10px;">		
-			<button id="show-cam">Kamera Zeigen</button>
+			<button id="show-cam">Kamera auf der Passat Travem&uuml;nde</button>
 		</div>
 		
 	</div>
 	<div id="map_canvas" style="width:100%; height:100%"></div>
+	
+	<div style="display:none">
+		<OBJECT id="data">
+		<embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" version="VideoLAN.VLCPlugin.2"
+			 width="720"
+			 height="376"
+			 rtsp-caching="80"
+			 target="rtsp://backstage5.esof2010.org/6-Dublino-724_20100706.120110.mpg"
+			 id="vlc">
+		</embed>
+		</OBJECT>
+	</div>
+	
 	</body>
 </html>

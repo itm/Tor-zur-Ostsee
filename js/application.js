@@ -80,11 +80,11 @@ function initButtons(map) {
   });
 	var camBox = $( "button#show-cam" ).fancybox({
 		'onStart' : function() {
-			window.setTimeout(function() {
-				$.fancybox.close();
+				window.setTimeout(function() {
+					$.fancybox.close();
+				}, 30000)
 			},
-			5000)
-		}
+		'href' : '#data'
 	});
   
 	return elems;
