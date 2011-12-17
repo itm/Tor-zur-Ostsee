@@ -70,6 +70,23 @@ function initButtons(map) {
 		var bounds = new google.maps.LatLngBounds(sw, ne);
 		map.fitBounds(bounds);
 	});
+	
+	$( "button#show-cam" ).css('font-size', '0.8em');
+	$( "button#show-cam" ).button({
+      icons: {
+          primary: "ui-icon-video"
+      },
+      text: false
+  });
+	var camBox = $( "button#show-cam" ).fancybox({
+		'onStart' : function() {
+			window.setTimeout(function() {
+				$.fancybox.close();
+			},
+			5000)
+		}
+	});
+  
 	return elems;
 }
 
