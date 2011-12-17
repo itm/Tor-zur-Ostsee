@@ -22,8 +22,8 @@
 				var infowindow = new google.maps.InfoWindow();
 				var elems = initButtons(map);
 				var timer = startCycling(elems);
-				initAutoOnOff(timer, map);
-				refreshMarker(infowindow, map);
+				initAutoOnOff(timer, map, elems);
+				refreshMarker(infowindow, map, "data.xml");
 				
 			});
 		</script>

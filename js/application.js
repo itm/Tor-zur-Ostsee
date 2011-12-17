@@ -10,7 +10,7 @@ function addMarker(location, map) {
 	return marker;
 };
 
-function initAutoOnOff(myTimer, map) {
+function initAutoOnOff(myTimer, map, elems) {
 	var kml = new google.maps.KmlLayer('http://itm.github.com/Tor-zur-Ostsee/region.kml');
 	$('#on_off').attr('checked', 'checked');
 	$('#on_off').iphoneStyle({
@@ -18,9 +18,9 @@ function initAutoOnOff(myTimer, map) {
 		uncheckedLabel : 'Off',
 		onChange : function(elem, value) {
 			window.clearInterval(myTimer);
-			kml.setMap(map);
+			// kml.setMap(map);
 			if($(elem).attr('checked')) {
-				myTimer = window.setInterval(changeCenter, 10000);
+				myTimer = startCycling(elems);
 				kml.setMap(null);
 			}
 		}
@@ -73,8 +73,8 @@ function initButtons(map) {
 	return elems;
 }
 
-function refreshMarker(infowindow, map) {
-	downloadXml("data.xml", function(data) {
+function refreshMarker(infowindow, map, url) {
+	downloadXml(url, function(data) {
 		var vessels = parseXml(data);
 		// TODO I think we have to clear all previous markers here
 		$(vessels).each(function() {
