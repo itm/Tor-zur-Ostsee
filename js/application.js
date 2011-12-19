@@ -1,8 +1,23 @@
 
 var markersArray = [];
 
-function addMarker(location, map) {
+function addMarker(location, map, type) {
+
+	// Sample custom marker code created with Google Map Custom Marker Maker
+	// http://www.powerhut.co.uk/googlemaps/custom_markers.php
+	// marker images taken from or inspired by http://mapicons.nicolasmollet.com/markers/
+
+	var image = new google.maps.MarkerImage(getMarkerImage(type), new google.maps.Size(32, 37), new google.maps.Point(0, 0), new google.maps.Point(16, 37));
+	var shadow = new google.maps.MarkerImage('img/shadow.png', new google.maps.Size(54, 37), new google.maps.Point(0, 0), new google.maps.Point(16, 37));
+	var shape = {
+		coord : [29, 0, 30, 1, 31, 2, 31, 3, 31, 4, 31, 5, 31, 6, 31, 7, 31, 8, 31, 9, 31, 10, 31, 11, 31, 12, 31, 13, 31, 14, 31, 15, 31, 16, 31, 17, 31, 18, 31, 19, 31, 20, 31, 21, 31, 22, 31, 23, 31, 24, 31, 25, 31, 26, 31, 27, 31, 28, 31, 29, 30, 30, 29, 31, 23, 32, 22, 33, 21, 34, 20, 35, 19, 36, 12, 36, 11, 35, 10, 34, 9, 33, 8, 32, 2, 31, 1, 30, 0, 29, 0, 28, 0, 27, 0, 26, 0, 25, 0, 24, 0, 23, 0, 22, 0, 21, 0, 20, 0, 19, 0, 18, 0, 17, 0, 16, 0, 15, 0, 14, 0, 13, 0, 12, 0, 11, 0, 10, 0, 9, 0, 8, 0, 7, 0, 6, 0, 5, 0, 4, 0, 3, 0, 2, 1, 1, 2, 0, 29, 0],
+		type : 'poly'
+	};
+
 	var marker = new google.maps.Marker({
+		icon: image,
+		shadow: shadow,
+		shape: shape,
 		position : location,
 		map : map
 	});
@@ -95,7 +110,7 @@ function refreshMarker(infowindow, map, url) {
 		var vessels = parseXml(data);
 		// TODO I think we have to clear all previous markers here
 		$(vessels).each(function() {
-			var marker = addMarker(new google.maps.LatLng(this.lat, this.lon), map);
+			var marker = addMarker(new google.maps.LatLng(this.lat, this.lon), map, this.type);
 			marker.vessel = this;
 			google.maps.event.addListener(marker, 'click', function() {
 				content = createMarkerContent(this.vessel);

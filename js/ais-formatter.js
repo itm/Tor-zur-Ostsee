@@ -21,6 +21,32 @@ var translate = function(ais_description) {
 	return translations[ais_description];
 }
 
+
+var getMarkerImage = function(type) {
+	var result = 'img/';
+
+	switch(type) {
+		case 'cargo\_ships':
+			result += 'cargoship.png';
+			break;
+		case 'tankships':
+			result += 'tankship.png';
+			break;
+		case 'coast\_guard\_ships':
+			result += 'coastguardship';
+		case 'passenger\_ships':
+			result += 'passengership.png';
+			break;
+		case 'sailing\_vessels':
+			result += 'sailingship.png';
+		default:
+			result += 'othership.png';
+	}
+
+	return result;
+}
+
+
 var cnvrt2Upper = function (str) {
 	return str.toLowerCase().replace(/\b[a-z]/g, cnvrt);
 	function cnvrt() {
