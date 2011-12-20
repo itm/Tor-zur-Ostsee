@@ -39,6 +39,10 @@ var getMarkerImage = function(type) {
 			break;
 		case 'sailing\_vessels':
 			result += 'sailingship.png';
+			break;
+		case 'fishing\_boats':
+			result += 'fishingship.png';
+			break;	
 		default:
 			result += 'othership.png';
 	}
