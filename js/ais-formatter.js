@@ -44,31 +44,36 @@ var translateStatus = function(ais_description) {
 
 
 
-var getMarkerImage = function(type) {
+var getMarkerImage = function(vessel) {
 	var result = 'img/';
 
-	switch(type) {
+	switch(vessel.type) {
 		case 'cargo\_ships':
-			result += 'cargoship.png';
+			result += 'cargoship';
 			break;
 		case 'tankships':
-			result += 'tankship.png';
+			result += 'tankship';
 			break;
 		case 'coast\_guard\_ships':
 			result += 'coastguardship';
 		case 'passenger\_ships':
-			result += 'passengership.png';
+			result += 'passengership';
 			break;
 		case 'sailing\_vessels':
-			result += 'sailingship.png';
+			result += 'sailingship';
 			break;
 		case 'fishing\_boats':
-			result += 'fishingship.png';
+			result += 'fishingship';
 			break;	
 		default:
-			result += 'othership.png';
+			result += 'othership';
 	}
 
+	if(!(vessel.status=='MOVING')){
+		result+='_a';
+	}
+	
+	result +='.png';
 	return result;
 }
 
