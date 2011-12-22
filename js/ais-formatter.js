@@ -56,6 +56,7 @@ var getMarkerImage = function(vessel) {
 			break;
 		case 'coast\_guard\_ships':
 			result += 'coastguardship';
+			break;
 		case 'passenger\_ships':
 			result += 'passengership';
 			break;
