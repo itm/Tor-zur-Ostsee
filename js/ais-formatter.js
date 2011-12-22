@@ -105,7 +105,7 @@ var createMarkerContent = function(vesselinfo) {
 		"</div>" +      	
        	" <div class='vesselname'>"+ cnvrt2Upper(vesselinfo.name)+ "</div>" + translateType(vesselinfo.type) +       	
        	"<dl class='table-display'>"+
-       	"<img  id='zentriert' border='0' src='http://images.vesseltracker.com/images/vessels/thumbnails/" + vesselinfo.pic +".jpg'/>"+
+        "<a href='http://www.vesseltracker.com/de/ShipPhotos/" +vesselinfo.pic+".html'><img  id='zentriert' border='0' src='http://images.vesseltracker.com/images/vessels/thumbnails/" + vesselinfo.pic +".jpg' alt='click image to get larger ship picture'/> </a>"+
     	"<dt>L&auml;nge x Breite</dt>"+
     	"<dd>"+ Math.round(vesselinfo.length) + "m x " + Math.round(vesselinfo.width)+"m</dd>"+
     	"<dt>Status</dt>"+
