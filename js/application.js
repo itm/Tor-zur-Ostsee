@@ -11,7 +11,37 @@ function addMarker(location, map) {
 	return marker;
 };
 
-function initAutoOnOff(myTimer, map, elems) {
+
+var regionOverlays = [];
+function showRegions(elems, map) {
+
+	$(elems).each( function() {
+
+		var rect = [
+			new google.maps.LatLng( $(this).data('lat-sw'), $(this).data('long-ne') ),
+			new google.maps.LatLng( $(this).data('lat-ne'), $(this).data('long-ne') ),
+			new google.maps.LatLng( $(this).data('lat-ne'), $(this).data('long-sw') ),
+			new google.maps.LatLng( $(this).data('lat-sw'), $(this).data('long-sw') ),
+			new google.maps.LatLng( $(this).data('lat-sw'), $(this).data('long-ne') )
+		]; 
+		var poly = new google.maps.Polyline({
+			path : rect,
+			strokeColor: "#FF0000",
+		  strokeOpacity: 1.0,
+		  strokeWeight: 2,
+		});
+		poly.setMap(map);
+		regionOverlays.push(poly);
+	});
+}
+
+function hideRegions(elems, map) {
+	$.each(regionOverlays, function() {
+		this.setMap(null);
+	});
+}
+
+function initAutoOnOff(map, elems) {
 	var kml = new google.maps.KmlLayer('http://itm.github.com/Tor-zur-Ostsee/region.kml');
 	$('#on_off').attr('checked', 'checked');
 	$('#on_off').iphoneStyle({
@@ -21,8 +51,11 @@ function initAutoOnOff(myTimer, map, elems) {
 			window.clearInterval(myTimer);
 			// kml.setMap(map);
 			if($(elem).attr('checked')) {
-				myTimer = startCycling(elems);
+				myTimer = cycleAreas(0);
 				kml.setMap(null);
+				hideRegions(elems, map);
+			} else {
+				showRegions(elems, map);				
 			}
 		}
 	});

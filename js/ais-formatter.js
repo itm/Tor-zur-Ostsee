@@ -63,6 +63,6 @@ var createMarkerContent = function(vesselinfo) {
     	"</dl>"+
     	"</div>"
 
-	console.log(content);
+	//console.log(content);
 	return content;
 };
