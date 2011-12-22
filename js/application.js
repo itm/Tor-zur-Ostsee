@@ -20,7 +20,6 @@ function addMarker(location, map, vessel) {
 		shape: shape,
 		position : location,
 		map : map,
-		icon: 'img/boat.png'
 	});
 	markersArray.push(marker);
 	return marker;
