@@ -28,12 +28,17 @@ Libraries and Tools
 In this project the following libraries are used:
 
 [YUI2](http://yuilibrary.com/projects/yui2/)
+
 [jQuery](http://jquery.com/)
+
 [jQuery UI](http://jqueryui.com/)
+
 [iphone-style-checkboxes](https://github.com/tdreyno/iphone-style-checkboxes)
+
 [Google Maps API V3](http://code.google.com/apis/maps/index.html)
+
 [jQuery fancyBox 1.3.4](http://fancybox.net/)
 
-The ship icons are taken from the [mapicons collection](http://mapicons.nicolasmollet.com/?s=boat)(some modified by us)
+The ship icons are taken from the [mapicons collection](http://mapicons.nicolasmollet.com/?s=boat) (some where modified/created by us)
 
 The Google Maps custom markers have been created with [Google Map Custom Marker Maker](http://www.powerhut.co.uk/googlemaps/custom_markers.php)
