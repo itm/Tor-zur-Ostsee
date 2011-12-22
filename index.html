@@ -18,63 +18,15 @@
 		<script src="js/parser.js" type="text/javascript"></script>
 		<script src="js/ais-formatter.js" type="text/javascript"></script>
 		<script type="text/javascript">
-		
-			function showMarkersInArea(index, curArea, markers) {
-				var content = createMarkerContent(markers[index].vessel);
-				infowindow.setContent(content);
-				infowindow.open(map, markers[index]);
-				index++;
-				if ( index < markers.length ) {
-					myTimer = window.setTimeout( function(){waitAndShow(index, curArea, markers);}, infoTime );
-				} else {
-					// next viewport
-					myTimer = window.setTimeout( function(){cycleAreas(curArea+1);}, infoTime );
-				}
-			} 
-			
-			function cycleAreas(curArea) {
-				var elems = $("#radio input[type=radio]");
-				if ( curArea > elems.length ) {
-					// start over again
-					curArea = 0;
-				}
-				// create bounds object
-				var lat_sw = parseFloat($(elems[curArea]).data("lat-sw"));
-				var lon_sw = parseFloat($(elems[curArea]).data("long-sw"));
-				var lat_ne = parseFloat($(elems[curArea]).data("lat-ne"));
-				var lon_ne = parseFloat($(elems[curArea]).data("long-ne"));
-				var sw = new google.maps.LatLng(lat_sw, lon_sw);
-				var ne = new google.maps.LatLng(lat_ne, lon_ne);
-				var bounds = new google.maps.LatLngBounds(sw, ne);
-				
-				// get markers in bound
-				var markersInBound = [];
-				$.each(markersArray, function(index, marker) {
-					if ( bounds.contains(marker.getPosition()) ) {
-						markersInBound.push(marker);
-					}
-				});
-				// if no marker in bounds
-				if ( markersInBound.length == 0 ) {
-					// skip
-					cycleAreas(curArea);
-				} else {
-				  $(elems[curArea]).trigger("click");
-					waitAndShow(0, curArea, markersInBound);
-				}
-			}
-			
-			function waitAndShow(index, curArea, markers) {
-				infowindow.close();
-				myTimer = window.setTimeout(function(){showMarkersInArea(index, curArea, markers);}, 2000);
-				map.panTo(markers[index].getPosition());
-				map.panBy(0, -200);
-			}
 			
 			var map = 'undefined';
 			var infowindow = 'undefined';
+			var url = 'data.xml';
+
 			var myTimer = {};
-			var infoTime = 5000;
+			var infoTime = 3000;
+			var pauseTime = 2000;
+			var noVesselTime = 5000;
 	
 			$(function() {
 
@@ -83,7 +35,7 @@
 				var elems = initButtons(map);
 
 				initAutoOnOff(map, elems);
-				refreshMarker(infowindow, map, "data.xml");
+				refreshMarker(url);
 				
 				myTimer = window.setTimeout(function() { cycleAreas(0) }, 2000);
 				

@@ -25,6 +25,59 @@ function addMarker(location, map, vessel) {
 	return marker;
 };
 
+function showMarkersInArea(index, curArea, markers) {
+	var content = createMarkerContent(markers[index].vessel);
+	infowindow.setContent(content);
+	infowindow.open(map, markers[index]);
+	index++;
+	if ( index < markers.length ) {
+		myTimer = window.setTimeout( function(){waitAndShow(index, curArea, markers);}, infoTime );
+	} else {
+		// next viewport
+		myTimer = window.setTimeout( function(){cycleAreas(curArea+1);}, infoTime );
+	}
+} 
+
+function cycleAreas(curArea) {
+	var elems = $("#radio input[type=radio]");
+	if ( curArea >= elems.length ) {
+		refreshMarker(url);
+		// start over again
+		curArea = 0;
+	}
+	// create bounds object
+	var lat_sw = parseFloat($(elems[curArea]).data("lat-sw"));
+	var lon_sw = parseFloat($(elems[curArea]).data("long-sw"));
+	var lat_ne = parseFloat($(elems[curArea]).data("lat-ne"));
+	var lon_ne = parseFloat($(elems[curArea]).data("long-ne"));
+	var sw = new google.maps.LatLng(lat_sw, lon_sw);
+	var ne = new google.maps.LatLng(lat_ne, lon_ne);
+	var bounds = new google.maps.LatLngBounds(sw, ne);
+	
+	// get markers in bound
+	var markersInBound = [];
+	$.each(markersArray, function(index, marker) {
+		if ( bounds.contains(marker.getPosition()) ) {
+			markersInBound.push(marker);
+		}
+	});
+	// if no marker in bounds
+	if ( markersInBound.length == 0 ) {
+		// skip
+		myTimer = window.setTimeout(function(){cycleAreas(curArea);}, noVesselTime);
+	} else {
+	  $(elems[curArea]).trigger("click");
+		waitAndShow(0, curArea, markersInBound);
+	}
+}
+
+function waitAndShow(index, curArea, markers) {
+	infowindow.close();
+	myTimer = window.setTimeout(function(){showMarkersInArea(index, curArea, markers);}, pauseTime);
+	map.panTo(markers[index].getPosition());
+	map.panBy(0, -200);
+}
+
 
 var regionOverlays = [];
 function showRegions(elems, map) {
@@ -125,7 +178,15 @@ function initButtons(map) {
 	return elems;
 }
 
-function refreshMarker(infowindow, map, url) {
+function clearMarker() {
+	$.each(markersArray, function(index, marker) {
+		marker.setMap(null);
+	});
+	markersArray= [];
+}
+
+function refreshMarker(url) {
+	clearMarker();
 	downloadXml(url, function(data) {
 		var vessels = parseXml(data);
 		// TODO I think we have to clear all previous markers here
