@@ -75,19 +75,6 @@ function initAutoOnOff(map, elems) {
 	});
 }
 
-function startCycling(elems) {
-	// trigger click with next on timer
-	var i = 0;
-	var changeCenter = function() {
-		i++;
-		if(i >= elems.size()) {
-			i = 0;
-		}
-		$(elems[i]).trigger("click");
-	};
-	return window.setInterval(changeCenter, 10000);
-}
-
 function initMap() {
 	var myOptions = {
 		zoom : 14,
