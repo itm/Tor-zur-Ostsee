@@ -61,13 +61,15 @@ function cycleAreas(curArea) {
 			markersInBound.push(marker);
 		}
 	});
+	
+	infowindow.close();
+	$(elems[curArea]).trigger("click");
 	// if no marker in bounds
 	if ( markersInBound.length == 0 ) {
 		// skip
-		myTimer = window.setTimeout(function(){cycleAreas(curArea);}, noVesselTime);
+		myTimer = window.setTimeout(function(){cycleAreas(curArea+1);}, noVesselTime);
 	} else {
-	  $(elems[curArea]).trigger("click");
-		waitAndShow(0, curArea, markersInBound);
+		myTimer = window.setTimeout(function(){waitAndShow(0, curArea, markersInBound);}, pauseTime);
 	}
 }
 
@@ -189,7 +191,6 @@ function refreshMarker(url) {
 	clearMarker();
 	downloadXml(url, function(data) {
 		var vessels = parseXml(data);
-		// TODO I think we have to clear all previous markers here
 		$(vessels).each(function() {
 			var marker = addMarker(new google.maps.LatLng(this.lat, this.lon), map, this);
 			marker.vessel = this;
