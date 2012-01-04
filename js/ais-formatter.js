@@ -101,25 +101,29 @@ var createMarkerContent = function(vesselinfo) {
 	
 	
 	// get optional content
-	var description = new Object();	
+	var description = new Object();
+	var imagePos = "centered"
+	
 	
 	if (vesselinfo.draught != null){
 		description.draught = "<dt>Tiefgang</dt><dd>"+vesselinfo.draught+"</dd>";
 	}else{
 		description.draught = "";
+		imagePos = "centered_minInfo";
 	}
 	
 	if (vesselinfo.pod != null){
 		description.pod = "<dt>Zielhafen</dt><dd>"+vesselinfo.pod+"</dd>";
 	}else{
 		description.pod = "";
+		imagePos = "centered_minInfo";
 	}
 	
 	
 	if (vesselinfo.pic != null){
         	description.pic = "	<a href='http://www.vesseltracker.com/de/ShipPhotos/" +vesselinfo.pic+".html'>"+
-									"<img  id='zentriert' border='0' src='http://images.vesseltracker.com/images/vessels/thumbnails/" + 
-									vesselinfo.pic +".jpg' alt='click image to get larger ship picture'/>"+
+									"<img  id='"+imagePos+"' border='0' src='http://images.vesseltracker.com/images/vessels/thumbnails/" + 
+									vesselinfo.pic +".jpg' height='74' alt='click image to get larger ship picture'/>"+
         						"</a>";
 	}else{
 		description.pic="";

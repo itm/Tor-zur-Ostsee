@@ -48,8 +48,15 @@ div.vesselname {
 div.vesseltype {
 	float: left;
 }
-#zentriert {
+#centered {
 	position: absolute;
-	top: 30px;
+	top: 40px;
 	right: 20px
 }
+
+#centered_minInfo {
+	position: absolute;
+	top: 15px;
+	right: 20px
+}
+
