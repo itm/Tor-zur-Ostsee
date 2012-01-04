@@ -17,7 +17,7 @@ translations["pilot\_vessels"] = "Lotsenschiff";
 translations["tugboats"] = "Schlepper";
 translations["anti-pollution\_vessels"] = "Schadstoffbek&auml;mpfung";
 translations["pleasure\_crafts"] = "Sportboot";
-translations["high-speed\_crafts"] = "Schnellboot"
+translations["high-speed\_crafts"] = "Schnellboot";
 translations["dredgers"] = "Bagger";
 translations["fishing\_boats"] = "Fischfangboot";
 translations["rescue\_vessels"] = "SAR-Schiff";
@@ -98,6 +98,25 @@ var createMarkerContent = function(vesselinfo) {
 	direction["1"] = "SW";
 	direction["4"] = "W";
 	direction["5"] = "unbekannt";
+	
+	
+	// get optional content
+	var description = new Object();	
+	
+	if (vesselinfo.draught != null){
+		description.draught = "<dt>Tiefgang</dt><dd>"+vesselinfo.draught+"</dd>";
+	}else{
+		description.draught = "";
+	}
+	
+	if (vesselinfo.pod != null){
+		description.pod = "<dt>Zielhafen</dt><dd>"+vesselinfo.pod+"</dd>";
+	}else{
+		description.pod = "";
+	}
+	
+	
+	
 	content = 
        	"<div class='container'>"+
        	"<div class='flag'>"+
@@ -114,12 +133,10 @@ var createMarkerContent = function(vesselinfo) {
     	"<dd>"+vesselinfo.speed+"kn</dd>"+
     	"<dt>Kurs / Richtung</dt>"+
     	"<dd>"+vesselinfo.course+"&deg; / "+ direction[vesselinfo.icon]+"</dd>"+
-    	"<dt>Tiefgang</dt>"+
-    	"<dd>[TODO]</dd>"+
-    	"<dt>Zielhafen</dt>"+
-    	"<dd>TODO</dd>"+
+    	description.draught+
+    	description.pod+
     	"</dl>"+
-    	"</div>"
+    	"</div>";
 
 	//console.log(content);
 	return content;
