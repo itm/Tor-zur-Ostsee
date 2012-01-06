@@ -39,11 +39,12 @@ var parseXml = function(xmlDoc) {
 		vessel.front 		= this.getAttribute("front");
 		vessel.nationality	= this.getAttribute("country");
 		vessel.flagid 		= this.getAttribute("flag");
-		vessel.speed 		= this.getAttribute("speed");
+		vessel.speed 		= ((this.getAttribute("speed")==null)?"0":this.getAttribute("speed"));
 		vessel.pic 			= this.getAttribute("p");
 		vessel.lastSeen 	= this.getAttribute("last_seen");
-		vessel.draught		= null; //TODO: no data about draught present, yet
-		vessel.pod			= null; //TODO: no data about port of destination present, yet
+		vessel.draught		= this.getAttribute("draught");
+		vessel.pod			= this.getAttribute("dest");
+		vessel.eta			= this.getAttribute("eta");
 
 		vesselinfo.push(vessel);
 	});

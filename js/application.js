@@ -168,6 +168,7 @@ function initButtons(map) {
       },
       text: false
   });
+
 	var camBox = $( "button#show-cam" ).fancybox({
 		'onStart' : function() {
 				window.setTimeout(function() {

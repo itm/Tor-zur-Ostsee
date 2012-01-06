@@ -86,6 +86,14 @@ var cnvrt2Upper = function (str) {
 	}
 }
 
+function tFix(wert,ds){
+       var wert=(wert.toFixed)?wert.toFixed(ds):
+        Math.floor(wert)+"."+
+(Math.pow(10,ds)+Math.round((wert-Math.floor(wert))*
+           Math.pow(10,ds))+"").substr(1,ds);
+return wert;
+}
+
 var createMarkerContent = function(vesselinfo) {
 
 	var direction = new Array();
@@ -103,53 +111,34 @@ var createMarkerContent = function(vesselinfo) {
 	// get optional content
 	var description = new Object();
 	var imagePos = "centered"
-	
-	
-	if (vesselinfo.draught != null){
-		description.draught = "<dt>Tiefgang</dt><dd>"+vesselinfo.draught+"</dd>";
-	}else{
-		description.draught = "";
-		imagePos = "centered_minInfo";
-	}
-	
-	if (vesselinfo.pod != null){
-		description.pod = "<dt>Zielhafen</dt><dd>"+vesselinfo.pod+"</dd>";
-	}else{
-		description.pod = "";
-		imagePos = "centered_minInfo";
-	}
-	
-	
-	if (vesselinfo.pic != null){
-        	description.pic = "	<a href='http://www.vesseltracker.com/de/ShipPhotos/" +vesselinfo.pic+".html'>"+
-									"<img  id='"+imagePos+"' border='0' src='http://images.vesseltracker.com/images/vessels/thumbnails/" + 
-									vesselinfo.pic +".jpg' height='74' alt='click image to get larger ship picture'/>"+
-        						"</a>";
-	}else{
-		description.pic="";
-	}
-	
-	
+
+	imagePos = "centered_minInfo";
+   description.pic = (vesselinfo.pic != null)?"<a href='http://www.vesseltracker.com/de/ShipPhotos/" +vesselinfo.pic+".html'>"+
+									"<img  id='"+imagePos+"' border='0' src='http://images.vesseltracker.com/images/vessels/small/" + 
+									vesselinfo.pic +".jpg' width='240' alt='click image to get larger ship picture'/>"+
+        						"</a>":"";
+	description.draught = ((vesselinfo.draught != null) && (vesselinfo.draught != "null"))?vesselinfo.draught:"---";
+	description.pod = (vesselinfo.pod != null)?vesselinfo.pod:"---";
 	
 	content = 
-       	"<div class='container'>"+
-       	"<div class='flag'>"+
-		"<img src='http://images.vesseltracker.com/images/flags/"+ vesselinfo.flagid +".png'/> "+
-		"</div>" +      	
-       	" <div class='vesselname'>"+ cnvrt2Upper(vesselinfo.name)+ "</div>" + translateType(vesselinfo.type) +       	
-       	"<dl class='table-display'>"+
+       "<div class='container'>"+
+       	"<div class='flag'>"+"<img src='http://images.vesseltracker.com/images/flags/"+ vesselinfo.flagid +".png'/> "+"</div>" +      	
+       	" <div class='vesselname'>"+ cnvrt2Upper(vesselinfo.name)+ "</div>" + translateType(vesselinfo.type) +         	
+"<dl class='table-display'>"+
+"<table class='table-display-table' cellspacing='0' cellpadding='0'>"+
+	"<tr><td valign='top'>" +
+		"<table class='table-display-table' cellspacing='0' cellpadding='0'>" +
+    	"<tr><td id='tdfirst'>L&auml;nge x Breite</td>"+ 	"<td id='tdsecond'>"+ Math.round(vesselinfo.length) + "m x " + Math.round(vesselinfo.width)+"m</td></tr>"+
+    	"<tr><td id='tdfirst'>Status</td>"+	"<td id='tdsecond'>"+translateStatus(vesselinfo.status)+"</td></tr>"+
+    	"<tr><td id='tdfirst'>Geschwindigkeit</td>"+ 	"<td id='tdsecond'>"+vesselinfo.speed+"&nbsp;Knoten</td></tr>"+
+    	"<tr><td id='tdfirst'>Kurs / Richtung</td>"+ ((vesselinfo.status=="MOVING")?"<td id='tdsecond'>"+vesselinfo.course+"&deg; / "+ direction[vesselinfo.icon]+"</td></tr>":"<td id='tdsecond'> --- / ---</td></tr>")+
+    	"<tr><td id='tdfirst'>Tiefgang</td>"+ 	"<td id='tdsecond'>"+description.draught+"</td></tr>"+
+    	"<tr><td id='tdfirst'>Ziel</td>"+ 	"<td id='tdsecond'>"+description.pod+"</td></tr>"+
+		"</table>" +
+		"</td><td id='table-display-pic' >" +
        	description.pic+   
-    	"<dt>L&auml;nge x Breite</dt>"+
-    	"<dd>"+ Math.round(vesselinfo.length) + "m x " + Math.round(vesselinfo.width)+"m</dd>"+
-    	"<dt>Status</dt>"+
-    	"<dd>"+translateStatus(vesselinfo.status)+"</dd>"+
-    	"<dt>Geschwindigkeit</dt>"+
-    	"<dd>"+vesselinfo.speed+"kn</dd>"+
-    	"<dt>Kurs / Richtung</dt>"+
-    	"<dd>"+vesselinfo.course+"&deg; / "+ direction[vesselinfo.icon]+"</dd>"+
-    	description.draught+
-    	description.pod+
-    	"</dl>"+
+		"</td></tr></table>" +
+		"</dl>" +
     	"</div>";
 
 	//console.log(content);
