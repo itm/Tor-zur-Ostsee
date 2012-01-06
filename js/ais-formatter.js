@@ -113,7 +113,7 @@ var createMarkerContent = function(vesselinfo) {
 	var imagePos = "centered"
 
 	imagePos = "centered_minInfo";
-   description.pic = (vesselinfo.pic != null)?"<a href='http://www.vesseltracker.com/de/ShipPhotos/" +vesselinfo.pic+".html'>"+
+   	description.pic = (vesselinfo.pic != null)?"<a href='http://www.vesseltracker.com/de/ShipPhotos/" +vesselinfo.pic+".html'>"+
 									"<img  id='"+imagePos+"' border='0' src='http://images.vesseltracker.com/images/vessels/small/" + 
 									vesselinfo.pic +".jpg' width='240' alt='click image to get larger ship picture'/>"+
         						"</a>":"";
@@ -130,10 +130,10 @@ var createMarkerContent = function(vesselinfo) {
 		"<table class='table-display-table' cellspacing='0' cellpadding='0'>" +
     	"<tr><td id='tdfirst'>L&auml;nge x Breite</td>"+ 	"<td id='tdsecond'>"+ Math.round(vesselinfo.length) + "m x " + Math.round(vesselinfo.width)+"m</td></tr>"+
     	"<tr><td id='tdfirst'>Status</td>"+	"<td id='tdsecond'>"+translateStatus(vesselinfo.status)+"</td></tr>"+
-    	"<tr><td id='tdfirst'>Geschwindigkeit</td>"+ 	"<td id='tdsecond'>"+vesselinfo.speed+"&nbsp;Knoten</td></tr>"+
+    	"<tr><td id='tdfirst'>Geschwindigkeit&nbsp;&nbsp;</td>"+ 	"<td id='tdsecond'>"+vesselinfo.speed.replace(".", ",")+"&nbsp;Knoten</td></tr>"+
     	"<tr><td id='tdfirst'>Kurs / Richtung</td>"+ ((vesselinfo.status=="MOVING")?"<td id='tdsecond'>"+vesselinfo.course+"&deg; / "+ direction[vesselinfo.icon]+"</td></tr>":"<td id='tdsecond'> --- / ---</td></tr>")+
-    	"<tr><td id='tdfirst'>Tiefgang</td>"+ 	"<td id='tdsecond'>"+description.draught+"</td></tr>"+
-    	"<tr><td id='tdfirst'>Ziel</td>"+ 	"<td id='tdsecond'>"+description.pod+"</td></tr>"+
+    	"<tr><td id='tdfirst'>Tiefgang</td>"+ 	"<td id='tdsecond'>"+description.draught.replace(".", ",")+" m</td></tr>"+
+    	"<tr><td id='tdfirst'>Ziel</td>"+ 	"<td id='tdsecond'>"+cnvrt2Upper(description.pod)+"</td></tr>"+
 		"</table>" +
 		"</td><td id='table-display-pic' >" +
        	description.pic+   
