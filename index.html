@@ -30,6 +30,8 @@
 			var infoTime = 16000;
 			var pauseTime = 4000;
 			var noVesselTime = 8000;
+			var showAutoOnOffButton = true;
+			var showShowCam = true;
 	
 			$(function() {
 
@@ -37,7 +39,19 @@
 				infowindow = new google.maps.InfoWindow({disableAutoPan: true});
 				var elems = initButtons(map);
 
-				initAutoOnOff(map, elems);
+				if (showAutoOnOffButton){
+					initAutoOnOff(map, elems);
+				}else{
+					$("#on_off").css("display","none");
+				}
+				
+				
+				if (showShowCam){
+					initShowCam(map);
+				}else{
+					$("#show-cam").css("display", "none");
+				}
+				
 				refreshMarker(url);
 				
 				myTimer = window.setTimeout(function() { cycleAreas(0) }, timerTimeout);

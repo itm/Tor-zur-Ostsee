@@ -130,6 +130,28 @@ function initAutoOnOff(map, elems) {
 	});
 }
 
+
+function initShowCam(map) {
+	
+	$( "button#show-cam" ).css('font-size', '0.8em');
+	$( "button#show-cam" ).button({
+      icons: {
+          primary: "ui-icon-video"
+      },
+      text: false
+  	});
+
+	var camBox = $( "button#show-cam" ).fancybox({
+		'onStart' : function() {
+				window.setTimeout(function() {
+					$.fancybox.close();
+				}, 30000)
+			},
+		'href' : '#data'
+	});
+	
+}
+
 function initMap() {
 	var myOptions = {
 		zoom : 14,
@@ -159,23 +181,6 @@ function initButtons(map) {
 		var ne = new google.maps.LatLng(lat_ne, lon_ne);
 		var bounds = new google.maps.LatLngBounds(sw, ne);
 		map.fitBounds(bounds);
-	});
-	
-	$( "button#show-cam" ).css('font-size', '0.8em');
-	$( "button#show-cam" ).button({
-      icons: {
-          primary: "ui-icon-video"
-      },
-      text: false
-  });
-
-	var camBox = $( "button#show-cam" ).fancybox({
-		'onStart' : function() {
-				window.setTimeout(function() {
-					$.fancybox.close();
-				}, 30000)
-			},
-		'href' : '#data'
 	});
   
 	return elems;
