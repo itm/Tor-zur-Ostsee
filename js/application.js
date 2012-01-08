@@ -102,6 +102,20 @@ function showRegions(elems, map) {
 		poly.setMap(map);
 		regionOverlays.push(poly);
 	});
+	
+	// Passat area
+	var rect = [
+		new google.maps.LatLng( passat_sw.lat(), passat_ne.lng() ),
+		new google.maps.LatLng( passat_ne.lat(), passat_ne.lng() ),
+		new google.maps.LatLng( passat_ne.lat(), passat_sw.lng() ),
+		new google.maps.LatLng( passat_sw.lat(), passat_sw.lng() ),
+		new google.maps.LatLng( passat_sw.lat(), passat_ne.lng() )
+	]; 
+	var poly = new google.maps.Polyline({
+		path : rect,
+	});
+	poly.setMap(map);
+	regionOverlays.push(poly);
 }
 
 function hideRegions(elems, map) {
@@ -140,16 +154,27 @@ function initShowCam(map) {
       },
       text: false
   	});
-
-	var camBox = $( "button#show-cam" ).fancybox({
-		'onStart' : function() {
-				window.setTimeout(function() {
-					$.fancybox.close();
-				}, camTime)
-			},
-		'href' : '#data'
-	});
 	
+	if ( useCam ) {
+		var camBox = $( "button#show-cam" ).fancybox({
+			'onStart' : function() {
+					window.setTimeout(function() {
+						$.fancybox.close();
+					}, camTime)
+				},
+			'href' : '#data'
+		});
+	} else {
+		var camBox = $( "button#show-cam" ).fancybox({
+			'onStart' : function() {
+					window.setTimeout(function() {
+						$.fancybox.close();
+					}, camTime)
+				},
+			'href' : '#big-image',
+			'title': 'F&auml;hrt gerade an der Passat vorbei'
+		});
+	}
 }
 
 function initMap() {
