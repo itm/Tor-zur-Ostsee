@@ -24,12 +24,20 @@
 			var map = 'undefined';
 			var infowindow = 'undefined';
 			var url = 'xml/data.xml';
-
+			
 			var myTimer = {};
+			// timout at the very start of the app
 			var timerTimeout = 2000;
+			// time the infoWindow is shown
 			var infoTime = 16000;
+			// time spent on a ship focused until the infowindow pops up
 			var pauseTime = 4000;
+			// time to stay at a viewport if no ships are present
 			var noVesselTime = 8000;
+			// time until the camera/image popup closes
+			var camTime = 30000;
+			
+			// Flags
 			var showAutoOnOffButton = true;
 			var showShowCam = true;
 	
@@ -44,7 +52,6 @@
 				}else{
 					$("#on_off").css("display","none");
 				}
-				
 				
 				if (showShowCam){
 					initShowCam(map);

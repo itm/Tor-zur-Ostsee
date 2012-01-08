@@ -145,7 +145,7 @@ function initShowCam(map) {
 		'onStart' : function() {
 				window.setTimeout(function() {
 					$.fancybox.close();
-				}, 30000)
+				}, camTime)
 			},
 		'href' : '#data'
 	});
