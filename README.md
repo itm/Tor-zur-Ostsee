@@ -1,6 +1,6 @@
 Tor zur Ostsee
 ==============
-Tor zur Ostsee (Gate to Baltic Sea) is a joined project of [ITM](http://www.itm.uni-luebeck.de/ "Homepage Institute of Telematics") and [TraDaV](http://www.tradav.de/ "Homepage TraDaV") which is realized in the context of Lübeck's election to the German [City of Science 2012](http://www.hanse-trifft-humboldt.de/ "Homepage City of Science 2012").
+Tor zur Ostsee (Gate to Baltic Sea) is a joint project of [ITM](http://www.itm.uni-luebeck.de/ "Homepage Institute of Telematics") and [TraDaV](http://www.tradav.de/ "Homepage TraDaV") which is realized in the context of Lübeck's election to the German [City of Science 2012](http://www.hanse-trifft-humboldt.de/ "Homepage City of Science 2012").
 
 Functionality
 -------------
