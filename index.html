@@ -24,14 +24,27 @@
 			var map = 'undefined';
 			var infowindow = 'undefined';
 			var url = 'xml/data.xml';
-
+			
 			var myTimer = {};
+			// timout at the very start of the app
 			var timerTimeout = 2000;
+			// time the infoWindow is shown
 			var infoTime = 16000;
+			// time spent on a ship focused until the infowindow pops up
 			var pauseTime = 4000;
+			// time to stay at a viewport if no ships are present
 			var noVesselTime = 8000;
+			// time until the camera/image popup closes
+			var camTime = 30000;
+			
+			// Flags
 			var showAutoOnOffButton = true;
+			var useCam = false;
 			var showShowCam = true;
+			
+			// Passat area
+			var passat_sw = new google.maps.LatLng(53.95871, 10.87989);
+			var passat_ne = new google.maps.LatLng(53.95992, 10.88286);
 	
 			$(function() {
 
@@ -44,7 +57,6 @@
 				}else{
 					$("#on_off").css("display","none");
 				}
-				
 				
 				if (showShowCam){
 					initShowCam(map);
@@ -104,8 +116,11 @@
 	<div id="map_canvas" style="width:100%; height:98%"></div>
 	
 	<div style="display:none">
-		<!--<img id="data" src="http://images.vesseltracker.com/images/vessels/small/-663579.jpg" style="height:376px;width:720px;"/> -->
-
+	
+		<div id="big-image">
+			<img src="http://images.vesseltracker.com/images/vessels/hires/-663579.jpg"/>
+		</div>
+		
 		<div id="data" style="height:376px;width:720px;">
 		<OBJECT id="data">
 		<embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" version="VideoLAN.VLCPlugin.2"
@@ -117,7 +132,7 @@
 		</embed>
 		</OBJECT>
 		</div>
-
+		
 	</div>
 	
 	</body>
