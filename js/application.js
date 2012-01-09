@@ -78,6 +78,12 @@ function cycleAreas(curArea) {
 	}
 	
 	infowindow.close();
+	
+	// force unfocus of all elements
+	for (var elem in elems){
+		elems.blur();
+	}
+	
 	$(elems[curArea]).trigger("click");
 	// if no marker in bounds
 	if ( markersInBound.length == 0 ) {
