@@ -256,6 +256,7 @@ function refreshMarker(url) {
 	});
 }
 
+var passatShip = {};
 function checkIfPassatIsPassed() {
 	var bounds = new google.maps.LatLngBounds(passat_sw, passat_ne);
 	var vesselInBounds = 'undefined';
@@ -271,6 +272,37 @@ function checkIfPassatIsPassed() {
 	if ( !vesselInBounds )
 		return;
 		
-	console.log(vesselInBounds);
+	passatShip = vesselInBounds;
+	
+	var restart = function(){ myTimer = cycleAreas(0); };
+	// stop cycling
+	window.clearInterval(myTimer);
+	
+	if ( useCam ) {
+		var camBox = $( "button#show-cam" ).fancybox({
+			'onStart' : function() {
+					window.setTimeout(function() {
+						$.fancybox.close();
+					}, camTime)
+				},
+			'onClosed': restart,
+			'href' : '#data'
+		});
+	} else {
+		var camBox = $( "button#show-cam" ).fancybox({
+				'onStart' : function() {
+						window.setTimeout(function() {
+							$.fancybox.close();
+						}, camTime)
+					},
+				'onClosed': restart,
+				'content' : '<div><img src="http://images.vesseltracker.com/images/vessels/hires/-'+passatShip.vessel.pic+'.jpg"/></div>',
+				'title': 'F&auml;hrt gerade an der Passat vorbei: ' +
+									cnvrt2Upper(passatShip.vessel.name) +
+									' (' + translateType(passatShip.vessel.type)+')'
+			});
+	}
+	
+	$('#show-cam').trigger('click');
 }
 
