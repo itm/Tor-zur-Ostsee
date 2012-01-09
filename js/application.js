@@ -289,20 +289,30 @@ function checkIfPassatIsPassed() {
 			'href' : '#data'
 		});
 	} else {
-		var camBox = $( "button#show-cam" ).fancybox({
-				'onStart' : function() {
-						window.setTimeout(function() {
-							$.fancybox.close();
-						}, camTime)
-					},
-				'onClosed': restart,
-				'content' : '<div><img src="http://images.vesseltracker.com/images/vessels/hires/-'+passatShip.vessel.pic+'.jpg"/></div>',
-				'title': 'F&auml;hrt gerade an der Passat vorbei: ' +
-									cnvrt2Upper(passatShip.vessel.name) +
-									' (' + translateType(passatShip.vessel.type)+')'
-			});
+		
+		var picBox = function() {
+			$( "button#show-cam" ).fancybox({
+					'onStart' : function() {
+							window.setTimeout(function() {
+								$.fancybox.close();
+							}, camTime)
+						},
+					'onClosed': restart,
+					'content' : image,
+					'title': 'F&auml;hrt gerade an der Passat vorbei: ' +
+										cnvrt2Upper(passatShip.vessel.name) +
+										' (' + translateType(passatShip.vessel.type)+')'
+				});
+		}
+		// preload image and show picBox
+		var image = $('<img />')
+    .attr('src', 'http://images.vesseltracker.com/images/vessels/hires/-'+passatShip.vessel.pic+'.jpg')
+    .load(function(){
+        picBox();
+        $('#show-cam').trigger('click');
+    });
 	}
 	
-	$('#show-cam').trigger('click');
+	
 }
 
