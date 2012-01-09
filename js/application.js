@@ -52,6 +52,7 @@ function cycleAreas(curArea) {
 		refreshMarker(url);
 		// start over again
 		curArea = 0;
+		console.log(markersArray);
 	}
 	// create bounds object
 	var lat_sw = parseFloat($(elems[curArea]).data("lat-sw"));
@@ -209,8 +210,8 @@ function clearMarker() {
 }
 
 function refreshMarker(url) {
-	clearMarker();
 	downloadXml(url, function(data) {
+		clearMarker();
 		var vessels = parseXml(data);
 		$(vessels).each(function() {
 			var marker = addMarker(new google.maps.LatLng(this.lat, this.lon), map, this);
