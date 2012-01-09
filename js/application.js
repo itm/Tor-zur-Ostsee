@@ -25,6 +25,14 @@ function addMarker(location, map, vessel) {
 	return marker;
 };
 
+function markerSortNS (a, b) {
+	return Number(a.vessel.lat) - Number(b.vessel.lat);
+}
+
+function markerSortWO (a, b) {
+	return Number(a.vessel.lon) - Number(b.vessel.lon);
+}
+
 function showMarkersInArea(index, curArea, markers) {
 	var content = createMarkerContent(markers[index].vessel);
 	infowindow.setContent(content);
@@ -61,6 +69,13 @@ function cycleAreas(curArea) {
 			markersInBound.push(marker);
 		}
 	});
+	
+	// Sort markers accorting to the course of the river Trave (roughly)
+	if (curArea == 2){
+		markersInBound.sort(markerSortWO);
+	}else{
+		markersInBound.sort(markerSortNS);
+	}
 	
 	infowindow.close();
 	$(elems[curArea]).trigger("click");
