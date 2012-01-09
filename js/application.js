@@ -52,7 +52,6 @@ function cycleAreas(curArea) {
 		refreshMarker(url);
 		// start over again
 		curArea = 0;
-		console.log(markersArray);
 	}
 	// create bounds object
 	var lat_sw = parseFloat($(elems[curArea]).data("lat-sw"));
