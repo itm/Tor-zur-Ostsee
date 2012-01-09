@@ -231,6 +231,25 @@ function refreshMarker(url) {
 				infowindow.open(map, this);
 			});
 		});
+		checkIfPassatIsPassed();
 	});
+}
+
+function checkIfPassatIsPassed() {
+	var bounds = new google.maps.LatLngBounds(passat_sw, passat_ne);
+	var vesselInBounds = 'undefined';
+	
+	$.each(markersArray, function(index, marker) {
+		if ( bounds.contains(marker.getPosition()) ) {
+			vesselInBounds = marker;
+			// break for jquery each
+			return false;
+		}
+	});
+	
+	if ( !vesselInBounds )
+		return;
+		
+	console.log(vesselInBounds);
 }
 
