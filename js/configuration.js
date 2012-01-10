@@ -31,3 +31,6 @@ var passat_ne = new google.maps.LatLng(53.95992, 10.88286);
 
 // text shown if no AIS data is available
 var noAISDataInfo = "Momentan liegen keine aktuellen Schiffsinformationen vor!";
+
+// text which will be shown if a certein piece of AIS data is not available
+var noInfoText = "---";

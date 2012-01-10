@@ -109,8 +109,15 @@ var createMarkerContent = function(vesselinfo) {
 									"<img  id='"+imagePos+"' border='0' src='" + picSrc + vesselinfo.pic + ".jpg' alt=''/>"+
         						"</a>":"";
 
-	description.draught = ((vesselinfo.draught != null) && (vesselinfo.draught != "null"))?vesselinfo.draught:"---";
-	description.pod = (vesselinfo.pod != null)?vesselinfo.pod:"---";
+	description.draught = ((vesselinfo.draught != null) && (vesselinfo.draught != "null")) ? vesselinfo.draught.replace(".", ",")+" m" : noInfoText;
+	
+	description.pod = (vesselinfo.pod != null) ? $.trim(cnvrt2Upper(vesselinfo.pod)) : noInfoText;
+	if (description.pod.length == 0 || description.pod == "Ziel"){
+		description.pod = noInfoText;
+	}
+	
+	
+	
 	
 	content = 
        "<div class='container'>"+
@@ -124,9 +131,9 @@ var createMarkerContent = function(vesselinfo) {
     	"<tr><td id='tdfirst'>L&auml;nge x Breite</td>"+ 	"<td id='tdsecond'>"+ Math.round(vesselinfo.length) + "m x " + Math.round(vesselinfo.width)+"m</td></tr>"+
     	"<tr><td id='tdfirst'>Status</td>"+	"<td id='tdsecond'>"+translateStatus(vesselinfo.status)+"</td></tr>"+
     	"<tr><td id='tdfirst'>Geschwindigkeit&nbsp;&nbsp;</td>"+ 	"<td id='tdsecond'>"+vesselinfo.speed.replace(".", ",")+"&nbsp;Knoten</td></tr>"+
-    	"<tr><td id='tdfirst'>Kurs / Richtung</td>"+ ((vesselinfo.status=="MOVING")?"<td id='tdsecond'>"+vesselinfo.course+"&deg; / "+ direction[vesselinfo.icon]+"</td></tr>":"<td id='tdsecond'> --- / ---</td></tr>")+
-    	"<tr><td id='tdfirst'>Tiefgang</td>"+ 	"<td id='tdsecond'>"+description.draught.replace(".", ",")+" m</td></tr>"+
-    	"<tr><td id='tdfirst'>Ziel</td>"+ 	"<td id='tdsecond'>"+cnvrt2Upper(description.pod)+"</td></tr>"+
+    	"<tr><td id='tdfirst'>Kurs / Richtung</td>"+ ((vesselinfo.status=="MOVING")?"<td id='tdsecond'>"+vesselinfo.course+"&deg; / "+ direction[vesselinfo.icon]+"</td></tr>":"<td id='tdsecond'> "+noInfoText+" / "+noInfoText+"</td></tr>")+
+    	"<tr><td id='tdfirst'>Tiefgang</td>"+ 	"<td id='tdsecond'>"+description.draught+"</td></tr>"+
+    	"<tr><td id='tdfirst'>Ziel</td>"+ 	"<td id='tdsecond'>"+description.pod+"</td></tr>"+
 		"</table>" +
 		"</td><td id='table-display-pic' >" +
        	description.pic+   
