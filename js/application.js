@@ -269,7 +269,7 @@ function checkIfPassatIsPassed() {
 		}
 	});
 	
-	if ( !vesselInBounds )
+	if ( !vesselInBounds || 'undefined'==vesselInBounds )
 		return;
 		
 	passatShip = vesselInBounds;
