@@ -49,6 +49,8 @@
 				
 				
 				$("#noAISDataOverlayText").text(noAISDataInfo);
+				var mapCanvasSize = $(window).height()-$("#radio").outerHeight();		
+				$("#map_canvas").attr("style","width:100%; height:"+mapCanvasSize+"px");
 				
 			});
 		</script>
@@ -95,7 +97,7 @@
 		</div>
 		
 	</div>
-	<div id="map_canvas" style="width:100%; height:98%"></div>
+	<div id="map_canvas" style="width:100%; height:92%"></div>
 	
 	<div style="display:none">
 	
