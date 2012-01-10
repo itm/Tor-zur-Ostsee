@@ -1,5 +1,9 @@
 // path/url to vessel data
 var url = 'xml/data.xml';
+
+var picSrc = 'http://images.vesseltracker.com/images/vessels/small/';
+var picHref = 'http://www.vesseltracker.com/de/ShipPhotos/';
+var flagSrc = 'http://images.vesseltracker.com/images/flags/';
 			
 // timout at the very start of the app
 var timerTimeout = 2000;

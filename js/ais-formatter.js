@@ -86,14 +86,6 @@ var cnvrt2Upper = function (str) {
 	}
 }
 
-function tFix(wert,ds){
-       var wert=(wert.toFixed)?wert.toFixed(ds):
-        Math.floor(wert)+"."+
-(Math.pow(10,ds)+Math.round((wert-Math.floor(wert))*
-           Math.pow(10,ds))+"").substr(1,ds);
-return wert;
-}
-
 var createMarkerContent = function(vesselinfo) {
 
 	var direction = new Array();
@@ -113,16 +105,17 @@ var createMarkerContent = function(vesselinfo) {
 	var imagePos = "centered"
 
 	imagePos = "centered_minInfo";
-   	description.pic = (vesselinfo.pic != null)?"<a href='http://www.vesseltracker.com/de/ShipPhotos/" +vesselinfo.pic+".html'>"+
-									"<img  id='"+imagePos+"' border='0' src='http://images.vesseltracker.com/images/vessels/small/" + 
-									vesselinfo.pic +".jpg' width='240' alt='click image to get larger ship picture'/>"+
+   	description.pic = (vesselinfo.pic != null)?"<a href='" + picHref + vesselinfo.pic + ".html'>"+
+									"<img  id='"+imagePos+"' border='0' src='" + picSrc + vesselinfo.pic + ".jpg' alt=''/>"+
         						"</a>":"";
+
 	description.draught = ((vesselinfo.draught != null) && (vesselinfo.draught != "null"))?vesselinfo.draught:"---";
 	description.pod = (vesselinfo.pod != null)?vesselinfo.pod:"---";
 	
 	content = 
        "<div class='container'>"+
-       	"<div class='flag'>"+"<img src='http://images.vesseltracker.com/images/flags/"+ vesselinfo.flagid +".png'/> "+"</div>" +      	
+       	"<div class='flag'>"+"<img src='" + flagSrc+ vesselinfo.flagid +".png'/> "+"</div>" +  
+			
        	" <div class='vesselname'>"+ cnvrt2Upper(vesselinfo.name)+ "</div>" + translateType(vesselinfo.type) +         	
 "<dl class='table-display'>"+
 "<table class='table-display-table' cellspacing='0' cellpadding='0'>"+
