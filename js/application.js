@@ -19,7 +19,7 @@ function addMarker(location, map, vessel) {
 		shadow: shadow,
 		shape: shape,
 		position : location,
-		map : map,
+		map : map
 	});
 	markersArray.push(marker);
 	return marker;
@@ -118,7 +118,7 @@ function showRegions(elems, map) {
 			path : rect,
 			strokeColor: "#FF0000",
 		  strokeOpacity: 1.0,
-		  strokeWeight: 2,
+		  strokeWeight: 2
 		});
 		poly.setMap(map);
 		regionOverlays.push(poly);
@@ -133,7 +133,7 @@ function showRegions(elems, map) {
 		new google.maps.LatLng( passat_sw.lat(), passat_ne.lng() )
 	]; 
 	var poly = new google.maps.Polyline({
-		path : rect,
+		path : rect
 	});
 	poly.setMap(map);
 	regionOverlays.push(poly);
