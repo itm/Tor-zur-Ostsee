@@ -100,6 +100,23 @@ div.vesseltype {
 	top: 15px;
 	right: 20px
 	*/
+}
 
+#noAISDataOverlay{
+	width: 800px;
+	height: 64px;
+	background: rgba(255,255,255,0.5);
+	margin-top: 30%;
+	display: table;
+}
+
+#noAISDataOverlayText{
+	font-weight: bold;
+	display: table-cell;
+	position: relative;
+	font-size: 32px;
+	color: red;
+	text-align: center;
+	vertical-align: middle;
 }
 

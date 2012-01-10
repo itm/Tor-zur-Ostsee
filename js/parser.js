@@ -7,9 +7,27 @@ var downloadXml = function(url, callback) {
 			dataType: "xml",
 			success: callback,
 			error:function (xhr, ajaxOptions, thrownError){
-                    alert("failed to retrieve data.xml\n" +xhr.responseText+"\n " +ajaxOptions+"\n "+thrownError);
+					var $noDataDialog = $('<div></div>')
+						.html(noAISDataInfo)
+						.dialog({
+							autoOpen: true,
+							title: 'Fehler beim Laden der Daten',
+							resizable: false,
+							show: 'fade',
+							hide: 'explode',
+							modal: true
+						});
+
+					setTimeout(function(){$noDataDialog.dialog("close")},5000);
+				   
+					//if there are still markers available, the warning about
+					// the unavailability of new data will lead to confusions
+					if (markersArray == null || markersArray.length == 0){
+					$("#noAISDataOverlay").show();
+					}
+					console.log("fail");
                   
-                }    
+			}    
 	});	
 }
 

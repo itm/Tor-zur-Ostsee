@@ -212,6 +212,10 @@ function initMap() {
 	$(logoDiv).html('<img alt="logo" src="img/logo.png" />');
 	map.controls[google.maps.ControlPosition.TOP_LEFT].push(logoDiv);
 	
+	// add an area to show a warning in case that no AIS data is available
+	$("#noAISDataOverlay").hide();
+	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById("noAISDataOverlay"));
+	
 	return map;
 }
 
@@ -241,6 +245,10 @@ function clearMarker() {
 
 function refreshMarker(url) {
 	downloadXml(url, function(data) {
+		// since AIS data was etched successfully, the overlay warning
+		// about the unavailability of AIS data is hidden
+		$("#noAISDataOverlay").hide();
+		console.log("AIS data was fetched successfully.");
 		clearMarker();
 		var vessels = parseXml(data);
 		$(vessels).each(function() {

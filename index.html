@@ -47,6 +47,9 @@
 				
 				myTimer = window.setTimeout(function() { cycleAreas(0) }, timerTimeout);
 				
+				
+				$("#noAISDataOverlayText").text(noAISDataInfo);
+				
 			});
 		</script>
 	</head>
@@ -110,6 +113,11 @@
 			 id="vlc">
 		</embed>
 		</OBJECT>
+		</div>
+		
+		<div id="noAISDataOverlay">
+			<div id="noAISDataOverlayText">
+			</div>
 		</div>
 		
 	</div>

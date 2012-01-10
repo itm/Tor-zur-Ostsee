@@ -28,3 +28,6 @@ var showShowCam = true;
 // Passat area
 var passat_sw = new google.maps.LatLng(53.95871, 10.87989);
 var passat_ne = new google.maps.LatLng(53.95992, 10.88286);
+
+// text shown if no AIS data is available
+var noAISDataInfo = "Momentan liegen keine aktuellen Schiffsinformationen vor!";
