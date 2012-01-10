@@ -262,7 +262,7 @@ function checkIfPassatIsPassed() {
 	var vesselInBounds = 'undefined';
 	
 	$.each(markersArray, function(index, marker) {
-		if ( bounds.contains(marker.getPosition()) ) {
+		if ( bounds.contains(marker.getPosition()) && marker.vessel.status == 'MOVING' ) {
 			vesselInBounds = marker;
 			// break for jquery each
 			return false;
@@ -288,6 +288,7 @@ function checkIfPassatIsPassed() {
 			'onClosed': restart,
 			'href' : '#data'
 		});
+		$('#show-cam').trigger('click');
 	} else {
 		
 		var picBox = function() {
