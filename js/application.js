@@ -3,6 +3,8 @@ var markersArray = [];
 
 var currentArea = 0;
 
+var shownVessels = [];
+
 function addMarker(location, map, vessel) {
 
 	// Sample custom marker code created with Google Map Custom Marker Maker
@@ -50,10 +52,11 @@ function showMarkersInArea(index, curArea, markers) {
 
 function cycleAreas(curArea) {
 	var elems = $("#radio input[type=radio]");
+	refreshMarker(url);
 	if ( curArea >= elems.length ) {
-		refreshMarker(url);
 		// start over again
 		curArea = 0;
+		shownVessels = [];
 	}
 	// create bounds object
 	var lat_sw = parseFloat($(elems[curArea]).data("lat-sw"));
@@ -267,7 +270,7 @@ function refreshMarker(url) {
 	});
 }
 
-var passatShip = {};
+
 function checkIfPassatIsPassed() {
 	var bounds = new google.maps.LatLngBounds(passat_sw, passat_ne);
 	var vesselInBounds = 'undefined';
@@ -282,13 +285,15 @@ function checkIfPassatIsPassed() {
 	
 	if ( !vesselInBounds || 'undefined'==vesselInBounds )
 		return;
-		
-	showCamOrImage(vesselInBounds);
+
+	if ($.inArray(vesselInBounds.vessel.name,shownVessels) == "-1"){
+		shownVessels.push(vesselInBounds.vessel.name);
+		showCamOrImage(vesselInBounds);
+	}
+
 }
 
-function showCamOrImage(vesselInBounds){
-		
-	passatShip = vesselInBounds;
+function showCamOrImage(passatShip){
 	
 	var restart = function(){ myTimer = cycleAreas(currentArea); };
 	// stop cycling
