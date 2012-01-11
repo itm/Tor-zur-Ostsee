@@ -315,11 +315,14 @@ function checkIfPassatIsPassed() {
 		}
 		// preload image and show picBox
 		var image = $('<img />')
-    .attr('src', 'http://images.vesseltracker.com/images/vessels/hires/-'+passatShip.vessel.pic+'.jpg')
-    .load(function(){
-        picBox();
-        $('#show-cam').trigger('click');
-    });
+			.attr('src', 'http://images.vesseltracker.com/images/vessels/hires/-'+passatShip.vessel.pic+'.jpg')
+			.load(function(){
+ 					picBox();
+ 					// when not setting this timer, the image will not be loaded and the fancybox is
+					window.setTimeout(function(){$('#show-cam').trigger('click');},0);
+
+		});
+    
 	}
 	
 	
