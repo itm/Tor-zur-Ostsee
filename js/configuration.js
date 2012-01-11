@@ -17,8 +17,11 @@ var pauseTime = 4000;
 // time to stay at a viewport if no ships are present
 var noVesselTime = 8000;
 
-// time until the camera/image popup closes
-var camTime = 30000;
+// time until the camera popup closes
+var camTime = 45000;
+
+// time until the image popup closes
+var picTime = 30000;
 
 // Flags
 var showAutoOnOffButton = true;

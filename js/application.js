@@ -190,7 +190,7 @@ function initShowCam(map) {
 			'onStart' : function() {
 					window.setTimeout(function() {
 						$.fancybox.close();
-					}, camTime)
+					}, picTime)
 				},
 			'href' : '#big-image',
 			'title': 'F&auml;hrt gerade an der Passat vorbei'
@@ -304,7 +304,7 @@ function checkIfPassatIsPassed() {
 					'onStart' : function() {
 							window.setTimeout(function() {
 								$.fancybox.close();
-							}, camTime)
+							}, picTime)
 						},
 					'onClosed': restart,
 					'content' : image,
