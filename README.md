@@ -9,6 +9,11 @@ We created a small web application which displays the current status and positio
 It relies on [AIS](http://en.wikipedia.org/wiki/Automatic_Identification_System "WP article about AIS") data which is provided by the company [Vesseltracker](http://www.vesseltracker.com/ "Homepage Vesseltracker").
 
 
+Screenshot of the application:
+
+<a href="https://github.com/itm/Tor-zur-Ostsee/raw/master/img/screenshot.jpg"><img src="https://github.com/itm/Tor-zur-Ostsee/raw/master/img/screenshot.jpg" width="463" height="256" alt="application screenshot"></a>
+
+
 Origin
 -------
 
