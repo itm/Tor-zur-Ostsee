@@ -5,16 +5,16 @@ var url = 'xml/data.xml';
 var timerTimeout = 2000;
 
 // time the infoWindow is shown
-var infoTime = 16000;
+var infoTime = 3000;
 
 // time spent on a ship focused until the infowindow pops up
-var pauseTime = 4000;
+var pauseTime = 1000;
 
 // time to stay at a viewport if no ships are present
-var noVesselTime = 8000;
+var noVesselTime = 4000;
 
 // time until the camera/image popup closes
-var camTime = 30000;
+var camTime = 5000;
 
 // Flags
 var showAutoOnOffButton = true;
