@@ -5,6 +5,12 @@ var currentArea = 0;
 
 var shownVessels = [];
 
+var image = new Image();
+
+var passatShip = {};
+
+var picBox;
+
 function addMarker(location, map, vessel) {
 
 	// Sample custom marker code created with Google Map Custom Marker Maker
@@ -181,25 +187,52 @@ function initShowCam(map) {
       text: false
   	});
 	
+	// showCamOrImage();
+	
+	var restart = function(){ cycleAreas(currentArea); };
+	
 	if ( useCam ) {
 		var camBox = $( "button#show-cam" ).fancybox({
 			'onStart' : function() {
+					$("#on_off").stopTime("cycling");
 					window.setTimeout(function() {
 						$.fancybox.close();
 					}, camTime)
 				},
+			'onClosed': restart,
 			'href' : '#data'
 		});
 	} else {
-		var camBox = $( "button#show-cam" ).fancybox({
-			'onStart' : function() {
-					window.setTimeout(function() {
-						$.fancybox.close();
-					}, picTime)
-				},
-			'href' : '#big-image',
-			'title': 'F&auml;hrt gerade an der Passat vorbei'
-		});
+		
+		if (debugMode){
+		
+			var camBox = $( "button#show-cam" ).fancybox({
+				'onStart' : function() {
+						window.setTimeout(function() {
+							$.fancybox.close();
+						}, picTime)
+					},
+				'href' : '#big-image',
+				'title': 'F&auml;hrt gerade an der Passat vorbei'
+			});
+			
+		}else{
+			picBox = function() {
+				$( "button#show-cam" ).fancybox({
+						'onStart' : function() {
+								$("#on_off").stopTime("cycling");
+								window.setTimeout(function() {
+									$.fancybox.close();
+								}, picTime)
+							},
+						'onClosed': restart,
+						'content' : passatShip.image,
+						'title': 'F&auml;hrt gerade an der Passat vorbei: ' +
+											passatShip.name +
+											' (' + passatShip.type +')'
+					});
+			}
+		}
 	}
 }
 
@@ -278,7 +311,7 @@ function checkIfPassatIsPassed() {
 	$.each(markersArray, function(index, marker) {
 		if ( bounds.contains(marker.getPosition()) && marker.vessel.status == 'MOVING' ) {
 			vesselInBounds = marker;
-			// break for jquery each
+			// break fopassatShipry each
 			return false;
 		}
 	});
@@ -293,45 +326,21 @@ function checkIfPassatIsPassed() {
 
 }
 
-function showCamOrImage(passatShip){
-	
+function showCamOrImage(ship){
+		
 	var restart = function(){ cycleAreas(currentArea); };
 	// stop cycling
 	$("#on_off").stopTime("cycling");
 
 	if ( useCam ) {
-		var camBox = $( "button#show-cam" ).fancybox({
-			'onStart' : function() {
-					$("#on_off").stopTime("cycling");
-					window.setTimeout(function() {
-						$.fancybox.close();
-					}, camTime)
-				},
-			'onClosed': restart,
-			'href' : '#data'
-		});
 		$('#show-cam').trigger('click');
 	} else {
-		
-		var picBox = function() {
-			$( "button#show-cam" ).fancybox({
-					'onStart' : function() {
-							$("#on_off").stopTime("cycling");
-							window.setTimeout(function() {
-								$.fancybox.close();
-							}, picTime)
-						},
-					'onClosed': restart,
-					'content' : image,
-					'title': 'F&auml;hrt gerade an der Passat vorbei: ' +
-										cnvrt2Upper(passatShip.vessel.name) +
-										' (' + translateType(passatShip.vessel.type)+')'
-				});
-		}
 		// preload image and show picBox
-		var image = $('<img />')
-			.attr('src', 'http://images.vesseltracker.com/images/vessels/hires/-'+passatShip.vessel.pic+'.jpg')
+		passatShip.image = $('<img />')
+			.attr('src', 'http://images.vesseltracker.com/images/vessels/hires/-'+ship.vessel.pic+'.jpg')
 			.load(function(){
+ 					passatShip.name = cnvrt2Upper(ship.vessel.name);
+ 					passatShip.type = translateType(ship.vessel.type);
  					picBox();
  					// when not setting this timer, the image will not be loaded and the fancybox is
 					window.setTimeout(function(){$('#show-cam').trigger('click');},0);
