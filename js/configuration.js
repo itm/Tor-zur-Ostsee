@@ -39,4 +39,4 @@ var noAISDataInfo = "Momentan liegen keine aktuellen Schiffsinformationen vor!";
 var noInfoText = "---";
 
 // toggles between debuging and productive mode
-var debugMode = true;
+var debugMode = false;
