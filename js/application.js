@@ -43,10 +43,10 @@ function showMarkersInArea(index, curArea, markers) {
 	infowindow.open(map, markers[index]);
 	index++;
 	if ( index < markers.length ) {
-		myTimer = window.setTimeout( function(){waitAndShow(index, curArea, markers);}, infoTime );
+		delay( function(){waitAndShow(index, curArea, markers);}, infoTime );
 	} else {
 		// next viewport
-		myTimer = window.setTimeout( function(){cycleAreas(curArea+1);}, infoTime );
+		delay( function(){cycleAreas(curArea+1);}, infoTime );
 	}
 } 
 
@@ -93,15 +93,15 @@ function cycleAreas(curArea) {
 	// if no marker in bounds
 	if ( markersInBound.length == 0 ) {
 		// skip
-		myTimer = window.setTimeout(function(){cycleAreas(curArea+1);}, noVesselTime);
+		delay(function(){cycleAreas(curArea+1);}, noVesselTime);
 	} else {
-		myTimer = window.setTimeout(function(){waitAndShow(0, curArea, markersInBound);}, pauseTime);
+		delay(function(){waitAndShow(0, curArea, markersInBound);}, pauseTime);
 	}
 }
 
 function waitAndShow(index, curArea, markers) {
 	infowindow.close();
-	myTimer = window.setTimeout(function(){showMarkersInArea(index, curArea, markers);}, pauseTime);
+	delay(function(){showMarkersInArea(index, curArea, markers);}, pauseTime);
 	map.panTo(markers[index].getPosition());
 	map.panBy(0, -200);
 }
@@ -160,10 +160,12 @@ function initAutoOnOff(map, elems) {
 			window.clearInterval(myTimer);
 			// kml.setMap(map);
 			if($(elem).attr('checked')) {
+				auto = true;
 				myTimer = cycleAreas(currentArea);
 				kml.setMap(null);
 				hideRegions(elems, map);
 			} else {
+				auto = false;
 				showRegions(elems, map);				
 			}
 		}
@@ -339,5 +341,13 @@ function showCamOrImage(passatShip){
 	}
 	
 	
+}
+
+function delay(callback, time) {
+	// only accept new queries if we are in auto mode
+	if ( auto ) {
+		window.clearInterval(myTimer);
+		myTimer = window.setTimeout(callback, time);
+	}
 }
 

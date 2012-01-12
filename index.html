@@ -24,6 +24,7 @@
 			var map = 'undefined';
 			var infowindow = 'undefined';
 			var myTimer = {};
+			var auto = true;
 			
 			$(function() {
 
@@ -45,7 +46,7 @@
 				
 				refreshMarker(url);
 				
-				myTimer = window.setTimeout(function() { cycleAreas(0) }, timerTimeout);
+				delay(function() { cycleAreas(0) }, timerTimeout);
 				
 				
 				$("#noAISDataOverlayText").text(noAISDataInfo);
