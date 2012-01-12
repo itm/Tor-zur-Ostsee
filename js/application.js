@@ -302,6 +302,7 @@ function showCamOrImage(passatShip){
 	if ( useCam ) {
 		var camBox = $( "button#show-cam" ).fancybox({
 			'onStart' : function() {
+					$("#on_off").stopTime("cycling");
 					window.setTimeout(function() {
 						$.fancybox.close();
 					}, camTime)
@@ -315,6 +316,7 @@ function showCamOrImage(passatShip){
 		var picBox = function() {
 			$( "button#show-cam" ).fancybox({
 					'onStart' : function() {
+							$("#on_off").stopTime("cycling");
 							window.setTimeout(function() {
 								$.fancybox.close();
 							}, picTime)
