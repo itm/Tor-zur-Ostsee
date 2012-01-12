@@ -186,19 +186,20 @@ function initShowCam(map) {
       },
       text: false
   	});
-	
-	// showCamOrImage();
-	
-	var restart = function(){ cycleAreas(currentArea); };
+		
+	var restart = function(){ 
+			$("#on_off").stopTime("showCamOrImage");
+			cycleAreas(currentArea);
+		};
 	
 	if ( useCam ) {
 		var camBox = $( "button#show-cam" ).fancybox({
 			'onStart' : function() {
 					$("#on_off").stopTime("cycling");
-					window.setTimeout(function() {
-						$.fancybox.close();
-					}, camTime)
-				},
+					$("#on_off").oneTime(infoTime, "showCamOrImage", function() {
+							$.fancybox.close();
+						}, camTime)
+			},
 			'onClosed': restart,
 			'href' : '#data'
 		});
@@ -208,9 +209,10 @@ function initShowCam(map) {
 		
 			var camBox = $( "button#show-cam" ).fancybox({
 				'onStart' : function() {
-						window.setTimeout(function() {
-							$.fancybox.close();
-						}, picTime)
+						$("#on_off").stopTime("cycling");
+						$("#on_off").oneTime(infoTime, "showCamOrImage", function() {
+								$.fancybox.close();
+							}, picTime)
 					},
 				'href' : '#big-image',
 				'title': 'F&auml;hrt gerade an der Passat vorbei'
@@ -221,9 +223,9 @@ function initShowCam(map) {
 				$( "button#show-cam" ).fancybox({
 						'onStart' : function() {
 								$("#on_off").stopTime("cycling");
-								window.setTimeout(function() {
-									$.fancybox.close();
-								}, picTime)
+								$("#on_off").oneTime(infoTime, "showCamOrImage", function() {
+										$.fancybox.close();
+									}, picTime)
 							},
 						'onClosed': restart,
 						'content' : passatShip.image,
