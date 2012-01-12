@@ -43,10 +43,10 @@ function showMarkersInArea(index, curArea, markers) {
 	infowindow.open(map, markers[index]);
 	index++;
 	if ( index < markers.length ) {
-		myTimer = window.setTimeout( function(){waitAndShow(index, curArea, markers);}, infoTime );
+		$("#on_off").oneTime(infoTime, "cycling", function() {waitAndShow(index, curArea, markers);});
 	} else {
 		// next viewport
-		myTimer = window.setTimeout( function(){cycleAreas(curArea+1);}, infoTime );
+		$("#on_off").oneTime(infoTime, "cycling", function() {cycleAreas(curArea+1);});
 	}
 } 
 
@@ -93,15 +93,15 @@ function cycleAreas(curArea) {
 	// if no marker in bounds
 	if ( markersInBound.length == 0 ) {
 		// skip
-		myTimer = window.setTimeout(function(){cycleAreas(curArea+1);}, noVesselTime);
+		$("#on_off").oneTime(noVesselTime, "cycling", function() {cycleAreas(curArea + 1);});
 	} else {
-		myTimer = window.setTimeout(function(){waitAndShow(0, curArea, markersInBound);}, pauseTime);
+		$("#on_off").oneTime(pauseTime, "cycling", function() {waitAndShow(0, curArea, markersInBound);});
 	}
 }
 
 function waitAndShow(index, curArea, markers) {
 	infowindow.close();
-	myTimer = window.setTimeout(function(){showMarkersInArea(index, curArea, markers);}, pauseTime);
+	$("#on_off").oneTime(pauseTime, "cycling", function() {showMarkersInArea(index, curArea, markers);});
 	map.panTo(markers[index].getPosition());
 	map.panBy(0, -200);
 }
@@ -157,10 +157,10 @@ function initAutoOnOff(map, elems) {
 		checkedLabel : 'Auto',
 		uncheckedLabel : 'Off',
 		onChange : function(elem, value) {
-			window.clearInterval(myTimer);
+			$("#on_off").stopTime("cycling");
 			// kml.setMap(map);
 			if($(elem).attr('checked')) {
-				myTimer = cycleAreas(currentArea);
+				cycleAreas(currentArea);
 				kml.setMap(null);
 				hideRegions(elems, map);
 			} else {
@@ -295,10 +295,10 @@ function checkIfPassatIsPassed() {
 
 function showCamOrImage(passatShip){
 	
-	var restart = function(){ myTimer = cycleAreas(currentArea); };
+	var restart = function(){ cycleAreas(currentArea); };
 	// stop cycling
-	window.clearInterval(myTimer);
-	
+	$("#on_off").stopTime("cycling");
+
 	if ( useCam ) {
 		var camBox = $( "button#show-cam" ).fancybox({
 			'onStart' : function() {
@@ -340,4 +340,3 @@ function showCamOrImage(passatShip){
 	
 	
 }
-
