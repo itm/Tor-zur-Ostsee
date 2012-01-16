@@ -89,14 +89,14 @@ var cnvrt2Upper = function (str) {
 var createMarkerContent = function(vesselinfo) {
 
 	var direction = new Array();
-	direction["7"] = "NW";
-	direction["8"] = "N";
-	direction["9"] = "N0";
-	direction["6"] = "0";
-	direction["3"] = "SO";
-	direction["2"] = "S";
-	direction["1"] = "SW";
-	direction["4"] = "W";
+	direction["7"] = "Nordwest";
+	direction["8"] = "Nord";
+	direction["9"] = "Nordost";
+	direction["6"] = "0st";
+	direction["3"] = "S&uuml;dost";
+	direction["2"] = "S&uuml;d";
+	direction["1"] = "S&uuml;dwest";
+	direction["4"] = "West";
 	direction["5"] = "unbekannt";
 	
 	
