@@ -188,8 +188,10 @@ function initShowCam(map) {
   	});
 		
 	var restart = function(){ 
-			$("#on_off").stopTime("showCamOrImage");
-			cycleAreas(currentArea);
+			if ($('#on_off').attr('checked') == "checked"){								
+				$("#on_off").stopTime("showCamOrImage");
+				cycleAreas(currentArea);
+			}
 		};
 	
 	if ( useCam ) {
@@ -313,7 +315,7 @@ function checkIfPassatIsPassed() {
 	$.each(markersArray, function(index, marker) {
 		if ( bounds.contains(marker.getPosition()) && marker.vessel.status == 'MOVING' ) {
 			vesselInBounds = marker;
-			// break fopassatShipry each
+			// break for jquery each
 			return false;
 		}
 	});
