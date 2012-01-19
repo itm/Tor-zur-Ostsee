@@ -26,6 +26,9 @@ var downloadXml = function(url, callback) {
 					$("#noAISDataOverlay").show();
 					}
 					console.log("fail");
+					
+					// continue showing the different areas
+					showArea(currentArea);
                   
 			}    
 	});	

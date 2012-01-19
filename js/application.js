@@ -58,9 +58,18 @@ function cycleAreas(curArea) {
 	refreshMarker(url);
 	if ( curArea >= elems.length ) {
 		// start over again
-		curArea = 0;
+		currentArea = 0;
 		shownVessels = [];
+	}else{
+		currentArea = curArea;
 	}
+	
+}
+
+function showArea(curArea){
+	
+	var elems = $("#radio input[type=radio]");
+		
 	// create bounds object
 	var lat_sw = parseFloat($(elems[curArea]).data("lat-sw"));
 	var lon_sw = parseFloat($(elems[curArea]).data("long-sw"));
@@ -284,6 +293,9 @@ function clearMarker() {
 }
 
 function refreshMarker(url) {
+
+	$("#on_off").stopTime("cycling");
+
 	downloadXml(url, function(data) {
 		// since AIS data was etched successfully, the overlay warning
 		// about the unavailability of AIS data is hidden
@@ -300,7 +312,10 @@ function refreshMarker(url) {
 				infowindow.open(map, this);
 			});
 		});
+
 		checkIfPassatIsPassed();
+
+		showArea(currentArea);
 	});
 }
 
