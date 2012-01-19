@@ -44,10 +44,7 @@ function markerSortWO (a, b) {
 }
 
 function showMarkersInArea(index, curArea, markers) {
-	var content = createMarkerContent(markers[index].vessel);
-	infowindow.setContent(content);
-	infowindow.open(map, markers[index]);
-	index++;
+	google.maps.event.trigger(markers[index++], 'click');
 	if ( index < markers.length ) {
 		$("#on_off").oneTime(infoTime, "cycling", function() {waitAndShow(index, curArea, markers);});
 	} else {
