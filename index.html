@@ -37,10 +37,8 @@
 				}else{
 					$("#on_off").css("display","none");
 				}
-				
-				if (showShowCam){
-					initShowCam(map);
-				}else{
+				initShowCam(map);
+				if (!showShowCamButton){
 					$("#show-cam").css("display", "none");
 				}
 				
