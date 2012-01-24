@@ -26,7 +26,7 @@ var picTime = 30000;
 // Flags
 var showAutoOnOffButton = true;
 var useCam = false;
-var showShowCam = true;
+var showShowCamButton = true;
 
 // Passat area
 var passat_sw = new google.maps.LatLng(53.95871, 10.87989);
