@@ -32,10 +32,9 @@
 				infowindow = new google.maps.InfoWindow({disableAutoPan: true});
 				var elems = initButtons(map);
 
-				if (showAutoOnOffButton){
-					initAutoOnOff(map, elems);
-				}else{
-					$("#on_off").css("display","none");
+				initAutoOnOff(map, elems);
+				if (!showAutoOnOffButton){
+					$("#on_off_button_area").css("display","none");
 				}
 				initShowCam(map);
 				if (!showShowCamButton){
@@ -87,7 +86,7 @@
 			<label for="radio5">Travem&uuml;nde</label>
 			
 		</form>
-		<div style="position:absolute; right:10px; top:11px;">
+		<div id="on_off_button_area" style="position:absolute; right:10px; top:11px;">
 			<input type="checkbox" id="on_off"/>
 		</div>
 		<div style="position:absolute; right:128px; top:10px;">		
