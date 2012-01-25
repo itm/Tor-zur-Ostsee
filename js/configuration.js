@@ -26,7 +26,6 @@ var picTime = 30000;
 // Flags
 var showAutoOnOffButton = false;
 var useCam = false;
-var showShowCam = true;
 var showShowCamButton = false;
 
 // Passat area
