@@ -101,7 +101,12 @@ function showArea(curArea){
 		elems.blur();
 	}
 	
-	$(elems[curArea]).trigger("click");
+	// there will be no need to programatically click the button
+	// representing the provided area if it is already active
+	if ($(elems[curArea]).attr('checked') != "checked"){
+		$(elems[curArea]).trigger("click");
+	}
+	
 	// if no marker in bounds
 	if ( markersInBound.length == 0 ) {
 		// skip
@@ -271,6 +276,11 @@ function initButtons(map) {
 	$("#radio form").buttonset();
 	var elems = $("#radio input[type=radio]");
 	elems.click(function(ev) {
+		
+		// stop cycling to make sure that a running timer does not
+		// interfere with switching the area
+		$("#on_off").stopTime("cycling");
+
 		var lat_sw = parseFloat($(ev.target).data("lat-sw"));
 		var lon_sw = parseFloat($(ev.target).data("long-sw"));
 		var lat_ne = parseFloat($(ev.target).data("lat-ne"));
@@ -280,6 +290,11 @@ function initButtons(map) {
 		var bounds = new google.maps.LatLngBounds(sw, ne);
 		map.fitBounds(bounds);
 		currentArea = Number($(ev.target).attr("id").substr(5))-1;
+		
+		// if the automatic mode is switched on, continue cycling the areas
+		if ($('#on_off').attr('checked') == "checked"){
+			cycleAreas(currentArea);
+		}
 	});
   
 	return elems;
