@@ -209,9 +209,9 @@ function initShowCam(map) {
 		var camBox = $( "button#show-cam" ).fancybox({
 			'onStart' : function() {
 					$("#on_off").stopTime("cycling");
-					$("#on_off").oneTime(infoTime, "showCamOrImage", function() {
+					$("#on_off").oneTime(camTime, "showCamOrImage", function() {
 							$.fancybox.close();
-						}, camTime)
+						})
 			},
 			'onClosed': restart,
 			'href' : '#data'
@@ -223,9 +223,9 @@ function initShowCam(map) {
 			var camBox = $( "button#show-cam" ).fancybox({
 				'onStart' : function() {
 						$("#on_off").stopTime("cycling");
-						$("#on_off").oneTime(infoTime, "showCamOrImage", function() {
+						$("#on_off").oneTime(picTime, "showCamOrImage", function() {
 								$.fancybox.close();
-							}, picTime)
+							})
 					},
 				'href' : '#big-image',
 				'title': 'F&auml;hrt gerade an der Passat vorbei'
@@ -236,9 +236,9 @@ function initShowCam(map) {
 				$( "button#show-cam" ).fancybox({
 						'onStart' : function() {
 								$("#on_off").stopTime("cycling");
-								$("#on_off").oneTime(infoTime, "showCamOrImage", function() {
+								$("#on_off").oneTime(picTime, "showCamOrImage", function() {
 										$.fancybox.close();
-									}, picTime)
+									})
 							},
 						'onClosed': restart,
 						'content' : passatShip.image,
