@@ -328,9 +328,10 @@ function refreshMarker(url) {
 			});
 		});
 
-		checkIfPassatIsPassed();
+		if (!checkIfPassatIsPassed()){
+			showArea(currentArea);
+		}
 
-		showArea(currentArea);
 	});
 }
 
@@ -348,18 +349,23 @@ function checkIfPassatIsPassed() {
 	});
 	
 	if ( !vesselInBounds || 'undefined'==vesselInBounds )
-		return;
+		return false;
 
 	if ($.inArray(vesselInBounds.vessel.name,shownVessels) == "-1"){
 		shownVessels.push(vesselInBounds.vessel.name);
 		showCamOrImage(vesselInBounds);
+		return true;
 	}
+	return false;
 
 }
 
 function showCamOrImage(ship){
 		
-	var restart = function(){ cycleAreas(currentArea); };
+	var restart = function(){
+		 cycleAreas(currentArea);
+	};
+	
 	// stop cycling
 	$("#on_off").stopTime("cycling");
 
