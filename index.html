@@ -46,8 +46,17 @@
 				$("#on_off").oneTime(timerTimeout, "cycling", function(){ cycleAreas(0) ;});
 				
 				$("#noAISDataOverlayText").text(noAISDataInfo);
+				
+				// maximize the map's size at when starting the application
 				var mapCanvasSize = $(window).height()-$("#radio").outerHeight();		
 				$("#map_canvas").attr("style","width:100%; height:"+mapCanvasSize+"px");
+				
+				// adjust the map's size whenever the browser window is resized
+				$(window).resize(function() {
+					mapCanvasSize = $(window).height()-$("#radio").outerHeight();		
+					$("#map_canvas").attr("style","width:100%; height:"+mapCanvasSize+"px");
+				});
+				
 				
 			});
 		</script>
