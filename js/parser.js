@@ -59,7 +59,7 @@ var parseXml = function(xmlDoc) {
 		vessel.left 		= this.getAttribute("left");
 		vessel.front 		= this.getAttribute("front");
 		vessel.nationality	= this.getAttribute("country");
-		vessel.flagid 		= this.getAttribute("flag");
+		vessel.flaglnk 		= ((this.getAttribute("flag")==null)?"img/noFlag.png":flagSrc+ this.getAttribute("flag") +".png"); 
 		vessel.speed 		= ((this.getAttribute("speed")==null)?"0":this.getAttribute("speed"));
 		vessel.pic 			= this.getAttribute("p");
 		vessel.lastSeen 	= this.getAttribute("last_seen");
