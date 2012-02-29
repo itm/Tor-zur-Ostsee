@@ -43,13 +43,74 @@ function markerSortWO (a, b) {
 	return Number(a.vessel.lon) - Number(b.vessel.lon);
 }
 
+/**
+ * Stops the timer which automatically switches between
+ * the maps and opens the tooltip windows which provide
+ * information about the dispayed vessels.
+ */
+function stopAutoModeTimer(){
+	
+	console.log("stopAutoModeTimer");
+	$("#on_off").stopTime("cycling");
+}
+
+/**
+ * Starts the timer which automatically switches between
+ * the maps and opens the tooltip windows which provide
+ * information about the dispayed vessels.
+ * The mentioned functionality is provided as a call-back function.
+ * 
+ * All timers which were previously started for this purpose are
+ * stopped first to make sure that they do not interfere. The same
+ * holds for the timer which is responible for displaying the camera's
+ * view for a certain amount of time.
+ * @param delay time to wait before calling the provided callback function.
+ * @param callback A function which provides some kind of functionality
+ */
+function startAutoModeTimer(delay, callback){
+	stopAutoModeTimer();
+	stopCamTimer();
+	console.log("startAutoModeTimer");
+	$("#on_off").oneTime(delay, "cycling", callback);
+}
+
+
+/**
+ * Stops the timer which is responible for displaying the camera's
+ * view for a certain amount of time.
+ */
+function stopCamTimer(){
+	
+	console.log("stopCamTimer");
+	$("#on_off").stopTime("showCamOrImage");
+}
+
+/**
+ * Starts the timer which is responible for displaying the camera's
+ * view for a certain amount of time.
+ * 
+ * All timers which were previously started for this purpose are
+ * stopped first to make sure that they do not interfere. The same
+ * holds for the timer which automatically switches between
+ * the maps and opens the tooltip windows which provide
+ * information about the dispayed vessels.
+ * @param delay time to wait before calling the provided callback function.
+ * @param callback A function which provides some kind of functionality
+ */
+function startCamTimer(delay, callback){
+	stopAutoModeTimer();
+	stopCamTimer();
+	console.log("startCamTimer");
+	$("#on_off").oneTime(delay, "showCamOrImage", callback);
+}
+
 function showMarkersInArea(index, curArea, markers) {
 	google.maps.event.trigger(markers[index++], 'click');
 	if ( index < markers.length ) {
-		$("#on_off").oneTime(infoTime, "cycling", function() {waitAndShow(index, curArea, markers);});
+		startAutoModeTimer(infoTime,function() {waitAndShow(index, curArea, markers);});
 	} else {
 		// next viewport
-		$("#on_off").oneTime(infoTime, "cycling", function() {cycleAreas(curArea+1);});
+		startAutoModeTimer(infoTime,function() {cycleAreas(curArea+1);});
 	}
 } 
 
@@ -110,15 +171,15 @@ function showArea(curArea){
 	// if no marker in bounds
 	if ( markersInBound.length == 0 ) {
 		// skip
-		$("#on_off").oneTime(noVesselTime, "cycling", function() {cycleAreas(curArea + 1);});
+		startAutoModeTimer(noVesselTime, function() {cycleAreas(curArea + 1);});
 	} else {
-		$("#on_off").oneTime(pauseTime, "cycling", function() {waitAndShow(0, curArea, markersInBound);});
+		startAutoModeTimer(pauseTime, function() {waitAndShow(0, curArea, markersInBound);});
 	}
 }
 
 function waitAndShow(index, curArea, markers) {
 	infowindow.close();
-	$("#on_off").oneTime(pauseTime, "cycling", function() {showMarkersInArea(index, curArea, markers);});
+	startAutoModeTimer(pauseTime, function() {showMarkersInArea(index, curArea, markers);});
 	map.panTo(markers[index].getPosition());
 	map.panBy(0, -200);
 }
@@ -174,7 +235,7 @@ function initAutoOnOff(map, elems) {
 		checkedLabel : 'Auto',
 		uncheckedLabel : 'Off',
 		onChange : function(elem, value) {
-			$("#on_off").stopTime("cycling");
+			stopAutoModeTimer();
 			// kml.setMap(map);
 			if($(elem).attr('checked')) {
 				cycleAreas(currentArea);
@@ -198,20 +259,17 @@ function initShowCam(map) {
       text: false
   	});
 		
-	var restart = function(){ 
-			if ($('#on_off').attr('checked') == "checked"){								
-				$("#on_off").stopTime("showCamOrImage");
-				cycleAreas(currentArea);
-			}
-		};
+	var restart = function(){
+		stopCamTimer();
+		if ($('#on_off').attr('checked') == "checked"){
+			cycleAreas(currentArea);
+		}
+	};
 	
 	if ( useCam ) {
 		var camBox = $( "button#show-cam" ).fancybox({
 			'onStart' : function() {
-					$("#on_off").stopTime("cycling");
-					$("#on_off").oneTime(camTime, "showCamOrImage", function() {
-							$.fancybox.close();
-						})
+					startCamTimer(camTime, function() { $.fancybox.close();	});
 			},
 			'onClosed': restart,
 			'href' : '#data'
@@ -222,10 +280,7 @@ function initShowCam(map) {
 		
 			var camBox = $( "button#show-cam" ).fancybox({
 				'onStart' : function() {
-						$("#on_off").stopTime("cycling");
-						$("#on_off").oneTime(picTime, "showCamOrImage", function() {
-								$.fancybox.close();
-							})
+						startCamTimer(picTime,function() { $.fancybox.close();});
 					},
 				'href' : '#big-image',
 				'title': 'F&auml;hrt gerade an der Passat vorbei'
@@ -235,10 +290,7 @@ function initShowCam(map) {
 			picBox = function() {
 				$( "button#show-cam" ).fancybox({
 						'onStart' : function() {
-								$("#on_off").stopTime("cycling");
-								$("#on_off").oneTime(picTime, "showCamOrImage", function() {
-										$.fancybox.close();
-									})
+								startCamTimer(picTime,function() { $.fancybox.close();});
 							},
 						'onClosed': restart,
 						'content' : passatShip.image,
@@ -279,7 +331,7 @@ function initButtons(map) {
 		
 		// stop cycling to make sure that a running timer does not
 		// interfere with switching the area
-		$("#on_off").stopTime("cycling");
+		stopAutoModeTimer();
 
 		var lat_sw = parseFloat($(ev.target).data("lat-sw"));
 		var lon_sw = parseFloat($(ev.target).data("long-sw"));
@@ -309,7 +361,7 @@ function clearMarker() {
 
 function refreshMarker(url) {
 
-	$("#on_off").stopTime("cycling");
+	stopAutoModeTimer();
 
 	downloadXml(url, function(data) {
 		// since AIS data was etched successfully, the overlay warning
@@ -367,7 +419,7 @@ function showCamOrImage(ship){
 	};
 	
 	// stop cycling
-	$("#on_off").stopTime("cycling");
+	stopAutoModeTimer();
 
 	if ( useCam ) {
 		$('#show-cam').trigger('click');
