@@ -27,8 +27,9 @@ var downloadXml = function(url, callback) {
 					}
 					console.log("fail");
 					
-					// continue showing the different areas
-					showArea(currentArea);
+//					// continue showing the different areas
+//					showArea(currentArea);
+                    callback;
                   
 			}    
 	});	

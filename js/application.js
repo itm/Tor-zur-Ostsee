@@ -1,4 +1,3 @@
-
 var markersArray = [];
 
 var currentArea = 0;
@@ -11,432 +10,183 @@ var passatShip = {};
 
 var picBox;
 
-function addMarker(location, map, vessel) {
-
-	// Sample custom marker code created with Google Map Custom Marker Maker
-	// http://www.powerhut.co.uk/googlemaps/custom_markers.php
-	// marker images taken from or inspired by http://mapicons.nicolasmollet.com/markers/
-
-	var image = new google.maps.MarkerImage(getMarkerImage(vessel), new google.maps.Size(32, 37), new google.maps.Point(0, 0), new google.maps.Point(16, 37));
-	var shadow = new google.maps.MarkerImage('img/shadow.png', new google.maps.Size(54, 37), new google.maps.Point(0, 0), new google.maps.Point(16, 37));
-	var shape = {
-		coord : [29, 0, 30, 1, 31, 2, 31, 3, 31, 4, 31, 5, 31, 6, 31, 7, 31, 8, 31, 9, 31, 10, 31, 11, 31, 12, 31, 13, 31, 14, 31, 15, 31, 16, 31, 17, 31, 18, 31, 19, 31, 20, 31, 21, 31, 22, 31, 23, 31, 24, 31, 25, 31, 26, 31, 27, 31, 28, 31, 29, 30, 30, 29, 31, 23, 32, 22, 33, 21, 34, 20, 35, 19, 36, 12, 36, 11, 35, 10, 34, 9, 33, 8, 32, 2, 31, 1, 30, 0, 29, 0, 28, 0, 27, 0, 26, 0, 25, 0, 24, 0, 23, 0, 22, 0, 21, 0, 20, 0, 19, 0, 18, 0, 17, 0, 16, 0, 15, 0, 14, 0, 13, 0, 12, 0, 11, 0, 10, 0, 9, 0, 8, 0, 7, 0, 6, 0, 5, 0, 4, 0, 3, 0, 2, 1, 1, 2, 0, 29, 0],
-		type : 'poly'
-	};
-
-	var marker = new google.maps.Marker({
-		icon: image,
-		shadow: shadow,
-		shape: shape,
-		position : location,
-		map : map
-	});
-	markersArray.push(marker);
-	return marker;
-};
-
-function markerSortNS (a, b) {
-	return Number(a.vessel.lat) - Number(b.vessel.lat);
-}
-
-function markerSortWO (a, b) {
-	return Number(a.vessel.lon) - Number(b.vessel.lon);
-}
 
 /**
- * Stops the timer which automatically switches between
- * the maps and opens the tooltip windows which provide
- * information about the dispayed vessels.
+ * Sets the current area
+ * @param index - The index of the area to be set.
  */
-function stopAutoModeTimer(){
-	
-	console.log("stopAutoModeTimer");
-	$("#on_off").stopTime("cycling");
-}
+function setCurrentArea(index) {
 
-/**
- * Starts the timer which automatically switches between
- * the maps and opens the tooltip windows which provide
- * information about the dispayed vessels.
- * The mentioned functionality is provided as a call-back function.
- * 
- * All timers which were previously started for this purpose are
- * stopped first to make sure that they do not interfere. The same
- * holds for the timer which is responible for displaying the camera's
- * view for a certain amount of time.
- * @param delay time to wait before calling the provided callback function.
- * @param callback A function which provides some kind of functionality
- */
-function startAutoModeTimer(delay, callback){
-	stopAutoModeTimer();
-	stopCamTimer();
-	console.log("startAutoModeTimer");
-	$("#on_off").oneTime(delay, "cycling", callback);
+    // If the provided index does not match the current aea,
+    // top the automatic mode (if it is set),
+    // switch to the desired area and restart the automatic mode if it was set previously
+    if (currentArea != index) {
+
+        var elems = $("#radio input[type=radio]");
+        if (index >= elems.length) {
+            // start over again
+            currentArea = 0;
+            shownVessels = [];
+        } else{
+            currentArea = index;
+        }
+
+        // if the automatic mode is switched on, continue cycling the areas
+        if ($('#on_off').attr('checked') == "checked") {
+            $('#on_off').click();
+            $('#on_off').click();
+        }
+    }
 }
 
 
 /**
- * Stops the timer which is responible for displaying the camera's
- * view for a certain amount of time.
+ * Sort the provided markers from north to south based on the vessels GPS coordinates.
+ * @param a - A marker
+ * @param b - A marker
+ * @return >0 if the first marker if placed farther north,
+ *         <0 if it is the other way around and
+ *         0 if there is no difference between the markers.
  */
-function stopCamTimer(){
-	
-	console.log("stopCamTimer");
-	$("#on_off").stopTime("showCamOrImage");
+function markerSortNS(a, b) {
+    return Number(a.vessel.lat) - Number(b.vessel.lat);
 }
 
 /**
- * Starts the timer which is responible for displaying the camera's
- * view for a certain amount of time.
- * 
- * All timers which were previously started for this purpose are
- * stopped first to make sure that they do not interfere. The same
- * holds for the timer which automatically switches between
- * the maps and opens the tooltip windows which provide
- * information about the dispayed vessels.
- * @param delay time to wait before calling the provided callback function.
- * @param callback A function which provides some kind of functionality
+ * Sort the provided markers from west to east based on the vessels GPS coordinates.
+ * @param a - A marker
+ * @param b - A marker
+ * @return >0 if the first marker if placed farther west,
+ *         <0 if it is the other way around and
+ *         0 if there is no difference between the markers.
  */
-function startCamTimer(delay, callback){
-	stopAutoModeTimer();
-	stopCamTimer();
-	console.log("startCamTimer");
-	$("#on_off").oneTime(delay, "showCamOrImage", callback);
-}
-
-function showMarkersInArea(index, curArea, markers) {
-	google.maps.event.trigger(markers[index++], 'click');
-	if ( index < markers.length ) {
-		startAutoModeTimer(infoTime,function() {waitAndShow(index, curArea, markers);});
-	} else {
-		// next viewport
-		startAutoModeTimer(infoTime,function() {cycleAreas(curArea+1);});
-	}
-} 
-
-function cycleAreas(curArea) {
-	var elems = $("#radio input[type=radio]");
-	refreshMarker(url);
-	if ( curArea >= elems.length ) {
-		// start over again
-		currentArea = 0;
-		shownVessels = [];
-	}else{
-		currentArea = curArea;
-	}
-	
-}
-
-function showArea(curArea){
-	
-	var elems = $("#radio input[type=radio]");
-		
-	// create bounds object
-	var lat_sw = parseFloat($(elems[curArea]).data("lat-sw"));
-	var lon_sw = parseFloat($(elems[curArea]).data("long-sw"));
-	var lat_ne = parseFloat($(elems[curArea]).data("lat-ne"));
-	var lon_ne = parseFloat($(elems[curArea]).data("long-ne"));
-	var sw = new google.maps.LatLng(lat_sw, lon_sw);
-	var ne = new google.maps.LatLng(lat_ne, lon_ne);
-	var bounds = new google.maps.LatLngBounds(sw, ne);
-	
-	// get markers in bound
-	var markersInBound = [];
-	$.each(markersArray, function(index, marker) {
-		if ( bounds.contains(marker.getPosition()) ) {
-			markersInBound.push(marker);
-		}
-	});
-	
-	// Sort markers accorting to the course of the river Trave (roughly)
-	if (curArea == 2){
-		markersInBound.sort(markerSortWO);
-	}else{
-		markersInBound.sort(markerSortNS);
-	}
-	
-	infowindow.close();
-	
-	// force unfocus of all elements
-	for (var elem in elems){
-		elems.blur();
-	}
-	
-	// there will be no need to programatically click the button
-	// representing the provided area if it is already active
-	if ($(elems[curArea]).attr('checked') != "checked"){
-		$(elems[curArea]).trigger("click");
-	}
-	
-	// if no marker in bounds
-	if ( markersInBound.length == 0 ) {
-		// skip
-		startAutoModeTimer(noVesselTime, function() {cycleAreas(curArea + 1);});
-	} else {
-		startAutoModeTimer(pauseTime, function() {waitAndShow(0, curArea, markersInBound);});
-	}
-}
-
-function waitAndShow(index, curArea, markers) {
-	infowindow.close();
-	startAutoModeTimer(pauseTime, function() {showMarkersInArea(index, curArea, markers);});
-	map.panTo(markers[index].getPosition());
-	map.panBy(0, -200);
+function markerSortWE(a, b) {
+    return Number(a.vessel.lon) - Number(b.vessel.lon);
 }
 
 
-var regionOverlays = [];
-function showRegions(elems, map) {
-
-	$(elems).each( function() {
-
-		var rect = [
-			new google.maps.LatLng( $(this).data('lat-sw'), $(this).data('long-ne') ),
-			new google.maps.LatLng( $(this).data('lat-ne'), $(this).data('long-ne') ),
-			new google.maps.LatLng( $(this).data('lat-ne'), $(this).data('long-sw') ),
-			new google.maps.LatLng( $(this).data('lat-sw'), $(this).data('long-sw') ),
-			new google.maps.LatLng( $(this).data('lat-sw'), $(this).data('long-ne') )
-		]; 
-		var poly = new google.maps.Polyline({
-			path : rect,
-			strokeColor: "#FF0000",
-		  strokeOpacity: 1.0,
-		  strokeWeight: 2
-		});
-		poly.setMap(map);
-		regionOverlays.push(poly);
-	});
-	
-	// Passat area
-	var rect = [
-		new google.maps.LatLng( passat_sw.lat(), passat_ne.lng() ),
-		new google.maps.LatLng( passat_ne.lat(), passat_ne.lng() ),
-		new google.maps.LatLng( passat_ne.lat(), passat_sw.lng() ),
-		new google.maps.LatLng( passat_sw.lat(), passat_sw.lng() ),
-		new google.maps.LatLng( passat_sw.lat(), passat_ne.lng() )
-	]; 
-	var poly = new google.maps.Polyline({
-		path : rect
-	});
-	poly.setMap(map);
-	regionOverlays.push(poly);
+/**
+ * Fetches available AIS data from a given source, creates markers based on the findings and calls a function after performing its tasks
+ * @param source - the source of AIS data
+ * @param callback  - Function to be called after (un-)successfully fetching the data
+ */
+function fetchData(source, callback) {
+    downloadXml(url, function (data) {
+        // since AIS data was etched successfully, the overlay warning
+        // about the unavailability of AIS data is hidden
+        $("#noAISDataOverlay").hide();
+        console.log("AIS data was fetched successfully.");
+        jQuery.extend(true, markersArray, refreshMarkers(data));
+        callback();
+    });
 }
 
-function hideRegions(elems, map) {
-	$.each(regionOverlays, function() {
-		this.setMap(null);
-	});
-}
+/**
+ * Shows a map of an area of interest and returns all markers which are currently located in that area
+ * @param index - The area of interest's index
+ * @return All markers which are currently located in the area of interest.
+ */
+function showMapArea(index){
+    var elems = $("#radio input[type=radio]");
 
-function initAutoOnOff(map, elems) {
-	var kml = new google.maps.KmlLayer('http://itm.github.com/Tor-zur-Ostsee/region.kml');
-	$('#on_off').attr('checked', 'checked');
-	$('#on_off').iphoneStyle({
-		checkedLabel : 'Auto',
-		uncheckedLabel : 'Off',
-		onChange : function(elem, value) {
-			stopAutoModeTimer();
-			// kml.setMap(map);
-			if($(elem).attr('checked')) {
-				cycleAreas(currentArea);
-				kml.setMap(null);
-				hideRegions(elems, map);
-			} else {
-				showRegions(elems, map);				
-			}
-		}
-	});
-}
+    // create bounds object
+    var lat_sw = parseFloat($(elems[index]).data("lat-sw"));
+    var lon_sw = parseFloat($(elems[index]).data("long-sw"));
+    var lat_ne = parseFloat($(elems[index]).data("lat-ne"));
+    var lon_ne = parseFloat($(elems[index]).data("long-ne"));
+    var sw = new google.maps.LatLng(lat_sw, lon_sw);
+    var ne = new google.maps.LatLng(lat_ne, lon_ne);
+    var bounds = new google.maps.LatLngBounds(sw, ne);
 
+    // get markers in bound
+    var markersInBound = [];
+    $.each(markersArray, function (index, marker) {
+        if (bounds.contains(marker.getPosition())) {
+            markersInBound.push(marker);
+        }
+    });
 
-function initShowCam(map) {
-	
-	$( "button#show-cam" ).css('font-size', '0.8em');
-	$( "button#show-cam" ).button({
-      icons: {
-          primary: "ui-icon-video"
-      },
-      text: false
-  	});
-		
-	var restart = function(){
-		stopCamTimer();
-		if ($('#on_off').attr('checked') == "checked"){
-			cycleAreas(currentArea);
-		}
-	};
-	
-	if ( useCam ) {
-		var camBox = $( "button#show-cam" ).fancybox({
-			'onStart' : function() {
-					startCamTimer(camTime, function() { $.fancybox.close();	});
-			},
-			'onClosed': restart,
-			'href' : '#data'
-		});
-	} else {
-		
-		if (debugMode){
-		
-			var camBox = $( "button#show-cam" ).fancybox({
-				'onStart' : function() {
-						startCamTimer(picTime,function() { $.fancybox.close();});
-					},
-				'href' : '#big-image',
-				'title': 'F&auml;hrt gerade an der Passat vorbei'
-			});
-			
-		}else{
-			picBox = function() {
-				$( "button#show-cam" ).fancybox({
-						'onStart' : function() {
-								startCamTimer(picTime,function() { $.fancybox.close();});
-							},
-						'onClosed': restart,
-						'content' : passatShip.image,
-						'title': 'F&auml;hrt gerade an der Passat vorbei: ' +
-											passatShip.name +
-											' (' + passatShip.type +')'
-					});
-			}
-		}
-	}
-}
+    // Sort markers according to the course of the river Trave (roughly)
+    if (index == 2) {
+        markersInBound.sort(markerSortWE);
+    } else {
+        markersInBound.sort(markerSortNS);
+    }
 
-function initMap() {
-	var myOptions = {
-		zoom : 14,
-		center : new google.maps.LatLng(53.890582, 10.701184),
-		mapTypeId : google.maps.MapTypeId.TERRAIN,
-		disableDefaultUI: true
-	};
-	var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-	
-	// add Logo
-	var logoDiv = document.createElement('DIV');
-	$(logoDiv).html('<img alt="logo" src="img/logo.png" />');
-	map.controls[google.maps.ControlPosition.TOP_LEFT].push(logoDiv);
-	
-	// add an area to show a warning in case that no AIS data is available
-	$("#noAISDataOverlay").hide();
-	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById("noAISDataOverlay"));
-	
-	return map;
-}
+    // force unfocus of all elements
+    for (var elem in elems) {
+        elems.blur();
+    }
 
-function initButtons(map) {
-	$("#radio form").buttonset();
-	var elems = $("#radio input[type=radio]");
-	elems.click(function(ev) {
-		
-		// stop cycling to make sure that a running timer does not
-		// interfere with switching the area
-		stopAutoModeTimer();
+    // there will be no need to programatically click the button
+    // representing the provided area if it is already active
+    if ($(elems[index]).attr('checked') != "checked") {
+        $(elems[index]).trigger("click");
+    }
 
-		var lat_sw = parseFloat($(ev.target).data("lat-sw"));
-		var lon_sw = parseFloat($(ev.target).data("long-sw"));
-		var lat_ne = parseFloat($(ev.target).data("lat-ne"));
-		var lon_ne = parseFloat($(ev.target).data("long-ne"));
-		var sw = new google.maps.LatLng(lat_sw, lon_sw);
-		var ne = new google.maps.LatLng(lat_ne, lon_ne);
-		var bounds = new google.maps.LatLngBounds(sw, ne);
-		map.fitBounds(bounds);
-		currentArea = Number($(ev.target).attr("id").substr(5))-1;
-		
-		// if the automatic mode is switched on, continue cycling the areas
-		if ($('#on_off').attr('checked') == "checked"){
-			cycleAreas(currentArea);
-		}
-	});
-  
-	return elems;
-}
-
-function clearMarker() {
-	$.each(markersArray, function(index, marker) {
-		marker.setMap(null);
-	});
-	markersArray= [];
-}
-
-function refreshMarker(url) {
-
-	stopAutoModeTimer();
-
-	downloadXml(url, function(data) {
-		// since AIS data was etched successfully, the overlay warning
-		// about the unavailability of AIS data is hidden
-		$("#noAISDataOverlay").hide();
-		console.log("AIS data was fetched successfully.");
-		clearMarker();
-		var vessels = parseXml(data);
-		$(vessels).each(function() {
-			var marker = addMarker(new google.maps.LatLng(this.lat, this.lon), map, this);
-			marker.vessel = this;
-			google.maps.event.addListener(marker, 'click', function() {
-				content = createMarkerContent(this.vessel);
-				infowindow.setContent(content);
-				infowindow.open(map, this);
-			});
-		});
-
-		if (!checkIfPassatIsPassed()){
-			showArea(currentArea);
-		}
-
-	});
+    return markersInBound;
 }
 
 
-function checkIfPassatIsPassed() {
-	var bounds = new google.maps.LatLngBounds(passat_sw, passat_ne);
-	var vesselInBounds = 'undefined';
-	
-	$.each(markersArray, function(index, marker) {
-		if ( bounds.contains(marker.getPosition()) && marker.vessel.status == 'MOVING' ) {
-			vesselInBounds = marker;
-			// break for jquery each
-			return false;
-		}
-	});
-	
-	if ( !vesselInBounds || 'undefined'==vesselInBounds )
-		return false;
+/**
+ * Returns the (first) moving vessel which is currently in the camera-observed area or null, if no vessel is available.
+ * @return The (first) moving vessel which is currently in the camera-observed area or null, if no vessel is available.
+ */
+function getVesselInCamArea() {
+    var bounds = new google.maps.LatLngBounds(passat_sw, passat_ne);
+    var vesselInBounds = 'undefined';
 
-	if ($.inArray(vesselInBounds.vessel.name,shownVessels) == "-1"){
-		shownVessels.push(vesselInBounds.vessel.name);
-		showCamOrImage(vesselInBounds);
-		return true;
-	}
-	return false;
+    $.each(markersArray, function (index, marker) {
+        if (bounds.contains(marker.getPosition()) && marker.vessel.status == 'MOVING') {
+            vesselInBounds = marker;
+            // break for jquery each
+            return false;
+        }
+    });
+
+    if (vesselInBounds && vesselInBounds != 'undefined') {
+        return vesselInBounds;
+    } else {
+        return null;
+    }
+}
+
+/**
+ * Opens a fancybox which shows a video stream or a static image of a vessel.
+ * @param vessel - The vessel which image will be shown if no video stream is available
+ */
+function showCamOrImage(vessel) {
+;
+
+    if (useCam) {
+        $('#show-cam').trigger('click');
+    } else {
+        // preload image and show picBox
+        passatShip.image = $('<img />')
+            .attr('src', 'http://images.vesseltracker.com/images/vessels/hires/-' + vessel.vessel.pic + '.jpg')
+            .load(function () {
+                passatShip.name = cnvrt2Upper(vessel.vessel.name);
+                passatShip.type = translateType(vessel.vessel.type);
+                picBox();
+                // when not setting this timer, the image will not be loaded and the fancybox is
+                window.setTimeout(function () {
+                    $('#show-cam').trigger('click');
+                }, 0);
+
+            });
+
+    }
 
 }
 
-function showCamOrImage(ship){
-		
-	var restart = function(){
-		 cycleAreas(currentArea);
-	};
-	
-	// stop cycling
-	stopAutoModeTimer();
 
-	if ( useCam ) {
-		$('#show-cam').trigger('click');
-	} else {
-		// preload image and show picBox
-		passatShip.image = $('<img />')
-			.attr('src', 'http://images.vesseltracker.com/images/vessels/hires/-'+ship.vessel.pic+'.jpg')
-			.load(function(){
- 					passatShip.name = cnvrt2Upper(ship.vessel.name);
- 					passatShip.type = translateType(ship.vessel.type);
- 					picBox();
- 					// when not setting this timer, the image will not be loaded and the fancybox is
-					window.setTimeout(function(){$('#show-cam').trigger('click');},0);
-
-		});
-    
-	}
-	
-	
+/**
+ * Called when the fancy box used to show a large image of a certain vessel or a video stream is closed
+ */
+function onCamOrImageBoxClose() {
+    stopCamTimer();
+    stopAutoModeTimer();
+    if ($('#on_off').attr('checked') == "checked") {
+        refreshMarkersAndCycleAreas(url);
+    }
 }

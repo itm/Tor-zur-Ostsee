@@ -8,6 +8,9 @@ var flagSrc = 'http://images.vesseltracker.com/images/flags/';
 // timout at the very start of the app
 var timerTimeout = 2000;
 
+// time spent on each new area before a vessel is focused
+var showAreaTime = 2000;
+
 // time the infoWindow is shown
 var infoTime = 16000;
 
