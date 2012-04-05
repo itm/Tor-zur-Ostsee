@@ -21,6 +21,10 @@ Our web application is strongly inspired by [MarineTraffic.com](http://marinetra
 
 Usage
 ------
+
+Before you run the application, make sure that you create a configuration file named 'config.js' in folder '/js/.
+For your convenience, we added a default configuration file '/js/config.js.default' which may be used as basis.
+
 Due to the contract with our provider of AIS data we may not publicise the actual data. A complete installation of the system will be shown in Lübeck in 2012.
 
 We aim to also include free AIS data sources in the application. Stay tuned ;-)
