@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>dk.tbsalling.aismessages</groupId>
+  <artifactId>aismessages</artifactId>
+  <version>1.01-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <localCopy>true</localCopy>
+    </snapshot>
+    <lastUpdated>20120408222313</lastUpdated>
+  </versioning>
+</metadata>
