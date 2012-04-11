@@ -1,3 +1,5 @@
+package de.uniluebeck.itm.aishandler;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.ServerSocket;
@@ -96,6 +98,16 @@ public class Main implements DecodedAISMessageHandler {
 				child.setAttribute("lat", data.getLat()+"");
 				child.setAttribute("lng", data.getLng()+"");
 				child.setAttribute("mmsi", data.getMMSI()+"");
+				child.setAttribute("draught", data.getDraught()+"");
+				child.setAttribute("t", data.getType());
+				child.setAttribute("call", data.getCallSign());
+				child.setAttribute("status", data.getStatus());
+				child.setAttribute("imo", data.getImo()+"");
+				child.setAttribute("destination", data.getDestination());
+				child.setAttribute("th", data.getTrueHeading()+"");
+				child.setAttribute("speed", data.getSpeed()+"");
+				child.setAttribute("width", data.getWidth()+"");
+				child.setAttribute("length", data.getLength()+"");
 				root.appendChild(child);
 			}
 			
@@ -135,13 +147,13 @@ public class Main implements DecodedAISMessageHandler {
 		}).start();
 	}
 	
-	private static void startHttpServer() {
+	private static void startHttpServer(final int port) {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					ServerSocket s = new ServerSocket(8181);
-					System.out.println("HTTP Server listening on 8181");
+					ServerSocket s = new ServerSocket(port);
+					System.out.println("HTTP Server listening on "+port);
 					for (;;) {
 						new TinyHttpServer(s.accept());
 					}
@@ -153,8 +165,14 @@ public class Main implements DecodedAISMessageHandler {
 	}
 
 	public static void main(String[] args) {
+		System.out.println("------------- Starting AIS Handler --------------");
+		System.out.println();
 		startParserClient();
-		startHttpServer();
+		int port = 8181;
+		if ( args.length > 0 ) {
+			port = Integer.parseInt(args[0]);
+		}
+		startHttpServer(port);
 	}
 
 }
