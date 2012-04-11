@@ -1,5 +1,5 @@
 // path/url to vessel data
-var url = 'xml/data.xml';
+var url = 'http://smartluebeck.de:8181/xml';
 
 var picSrc = 'http://images.vesseltracker.com/images/vessels/small/';
 var picHref = 'http://www.vesseltracker.com/de/ShipPhotos/';
