@@ -24,7 +24,6 @@ var camTime = 45000;
 var picTime = 30000;
 
 // Flags
-var showAutoOnOffButton = true;
 var useCam = false;
 var showShowCam = true;
 

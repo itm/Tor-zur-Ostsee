@@ -25,83 +25,6 @@ function addMarker(location, map, vessel) {
 	return marker;
 };
 
-function markerSortNS (a, b) {
-	return Number(a.vessel.lat) - Number(b.vessel.lat);
-}
-
-function markerSortWO (a, b) {
-	return Number(a.vessel.lon) - Number(b.vessel.lon);
-}
-
-function showMarkersInArea(index, curArea, markers) {
-	var content = createMarkerContent(markers[index].vessel);
-	infowindow.setContent(content);
-	infowindow.open(map, markers[index]);
-	index++;
-	if ( index < markers.length ) {
-		myTimer = window.setTimeout( function(){waitAndShow(index, curArea, markers);}, infoTime );
-	} else {
-		// next viewport
-		myTimer = window.setTimeout( function(){cycleAreas(curArea+1);}, infoTime );
-	}
-} 
-
-function cycleAreas(curArea) {
-	var elems = $("#radio input[type=radio]");
-	if ( curArea >= elems.length ) {
-		refreshMarker(url);
-		// start over again
-		curArea = 0;
-	}
-	// create bounds object
-	var lat_sw = parseFloat($(elems[curArea]).data("lat-sw"));
-	var lon_sw = parseFloat($(elems[curArea]).data("long-sw"));
-	var lat_ne = parseFloat($(elems[curArea]).data("lat-ne"));
-	var lon_ne = parseFloat($(elems[curArea]).data("long-ne"));
-	var sw = new google.maps.LatLng(lat_sw, lon_sw);
-	var ne = new google.maps.LatLng(lat_ne, lon_ne);
-	var bounds = new google.maps.LatLngBounds(sw, ne);
-	
-	// get markers in bound
-	var markersInBound = [];
-	$.each(markersArray, function(index, marker) {
-		if ( bounds.contains(marker.getPosition()) ) {
-			markersInBound.push(marker);
-		}
-	});
-	
-	// Sort markers accorting to the course of the river Trave (roughly)
-	if (curArea == 2){
-		markersInBound.sort(markerSortWO);
-	}else{
-		markersInBound.sort(markerSortNS);
-	}
-	
-	infowindow.close();
-	
-	// force unfocus of all elements
-	for (var elem in elems){
-		elems.blur();
-	}
-	
-	$(elems[curArea]).trigger("click");
-	// if no marker in bounds
-	if ( markersInBound.length == 0 ) {
-		// skip
-		myTimer = window.setTimeout(function(){cycleAreas(curArea+1);}, noVesselTime);
-	} else {
-		myTimer = window.setTimeout(function(){waitAndShow(0, curArea, markersInBound);}, pauseTime);
-	}
-}
-
-function waitAndShow(index, curArea, markers) {
-	infowindow.close();
-	myTimer = window.setTimeout(function(){showMarkersInArea(index, curArea, markers);}, pauseTime);
-	map.panTo(markers[index].getPosition());
-	map.panBy(0, -200);
-}
-
-
 var regionOverlays = [];
 function showRegions(elems, map) {
 
@@ -142,26 +65,6 @@ function showRegions(elems, map) {
 function hideRegions(elems, map) {
 	$.each(regionOverlays, function() {
 		this.setMap(null);
-	});
-}
-
-function initAutoOnOff(map, elems) {
-	var kml = new google.maps.KmlLayer('http://itm.github.com/Tor-zur-Ostsee/region.kml');
-	$('#on_off').attr('checked', 'checked');
-	$('#on_off').iphoneStyle({
-		checkedLabel : 'Auto',
-		uncheckedLabel : 'Off',
-		onChange : function(elem, value) {
-			window.clearInterval(myTimer);
-			// kml.setMap(map);
-			if($(elem).attr('checked')) {
-				myTimer = cycleAreas(0);
-				kml.setMap(null);
-				hideRegions(elems, map);
-			} else {
-				showRegions(elems, map);				
-			}
-		}
 	});
 }
 

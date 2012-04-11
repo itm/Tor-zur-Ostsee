@@ -28,14 +28,8 @@
 			$(function() {
 
 				map = initMap();
-				infowindow = new google.maps.InfoWindow({disableAutoPan: true});
+				infowindow = new google.maps.InfoWindow({disableAutoPan: false});
 				var elems = initButtons(map);
-
-				if (showAutoOnOffButton){
-					initAutoOnOff(map, elems);
-				}else{
-					$("#on_off").css("display","none");
-				}
 				
 				if (showShowCam){
 					initShowCam(map);
@@ -89,9 +83,6 @@
 			<label for="radio5">Travem&uuml;nde</label>
 			
 		</form>
-		<div style="position:absolute; right:10px; top:11px;">
-			<input type="checkbox" id="on_off"/>
-		</div>
 		<div style="position:absolute; right:128px; top:10px;">		
 			<button id="show-cam">Kamera auf der Passat Travem&uuml;nde</button>
 		</div>
