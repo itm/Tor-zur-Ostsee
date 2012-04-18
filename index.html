@@ -23,7 +23,6 @@
 			
 			var map = 'undefined';
 			var infowindow = 'undefined';
-			var myTimer = {};
 			
 			$(function() {
 
@@ -37,10 +36,7 @@
 					$("#show-cam").css("display", "none");
 				}
 				
-				refreshMarker(url);
-				
-				myTimer = window.setTimeout(function() { cycleAreas(0) }, timerTimeout);
-				
+				refreshMarker(url);				
 				
 				$("#noAISDataOverlayText").text(noAISDataInfo);
 				var mapCanvasSize = $(window).height()-$("#radio").outerHeight();		

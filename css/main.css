@@ -13,13 +13,13 @@ form {
 }
 
 div dl.table-display {
-	float: left;
-	width: 624px;
-	margin: 1em 0;
-	padding: 0;
-	border-bottom: 1px solid #999;
-	border-top: 1px solid #999;
-	position: relative;
+    border-bottom: 1px solid #999999;
+    border-top: 1px solid #999999;
+    float: left;
+    margin: 2px 0;
+    padding: 3px;
+    position: relative;
+    width: 400px;
 }
 
 .table-display dt {
@@ -68,20 +68,32 @@ div dl.table-display {
 }
 
 div.container {
-	width: 624px;
+	width: 450px;
 	font-family: sans-serif;
 }
 div.flag {
 	margin-right: 5px;
 	float: left;
 }
-div.vesselname {
+.vesselname {
 	font-weight: bold;
+	font-size: 1.5em;
 	margin-right: 5px;
 	float: left;
 }
+.vessel-type {
+	font-size: 12pt;
+    font-weight: normal;
+    margin-left: 15px;
+}
 div.vesseltype {
 	float: left;
+}
+
+div.origin {
+	float: left;
+    font-size: 10pt;
+    padding: 5px;
 }
 
 #centered {

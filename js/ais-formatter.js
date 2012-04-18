@@ -26,23 +26,13 @@ translations["towing\_vessels"] = "Schlepper";
 translations["others"] = "Sonstiges Schiff";
 
 
-var translateType = function(ais_description) {
-	
-    if (!$.inArray(ais_description, translations)){
-		ais_description = "others";
+var translate = function(ais_description) {
+	var translation = translations[ais_description];
+    if ( translation === undefined ){
+		translation = ais_description;
 	}
-	return translations[ais_description];
+	return translation;
 }
-
-var translateStatus = function(ais_description) {
-	
-    if (!$.inArray(ais_description, translations)){
-		ais_description = "UNKNOWN";
-	}
-	return translations[ais_description];
-}
-
-
 
 var getMarkerImage = function(vessel) {
 	var result = 'img/';
@@ -115,30 +105,25 @@ var createMarkerContent = function(vesselinfo) {
 	if (description.pod.length == 0 || description.pod == "Ziel"){
 		description.pod = noInfoText;
 	}
-	
-	
-	
-	
+
 	content = 
        "<div class='container'>"+
-       	"<div class='flag'>"+"<img src='" + flagSrc+ vesselinfo.flagid +".png'/> "+"</div>" +  
-			
-       	" <div class='vesselname'>"+ cnvrt2Upper(vesselinfo.name)+ "</div>" + translateType(vesselinfo.type) +         	
-"<dl class='table-display'>"+
-"<table class='table-display-table' cellspacing='0' cellpadding='0'>"+
-	"<tr><td valign='top'>" +
-		"<table class='table-display-table' cellspacing='0' cellpadding='0'>" +
-    	"<tr><td id='tdfirst'>L&auml;nge x Breite</td>"+ 	"<td id='tdsecond'>"+ Math.round(vesselinfo.length) + "m x " + Math.round(vesselinfo.width)+"m</td></tr>"+
-    	"<tr><td id='tdfirst'>Status</td>"+	"<td id='tdsecond'>"+translateStatus(vesselinfo.status)+"</td></tr>"+
-    	"<tr><td id='tdfirst'>Geschwindigkeit&nbsp;&nbsp;</td>"+ 	"<td id='tdsecond'>"+vesselinfo.speed.replace(".", ",")+"&nbsp;Knoten</td></tr>"+
-    	"<tr><td id='tdfirst'>Kurs / Richtung</td>"+ ((vesselinfo.status=="MOVING")?"<td id='tdsecond'>"+vesselinfo.course+"&deg; / "+ direction[vesselinfo.icon]+"</td></tr>":"<td id='tdsecond'> "+noInfoText+" / "+noInfoText+"</td></tr>")+
-    	"<tr><td id='tdfirst'>Tiefgang</td>"+ 	"<td id='tdsecond'>"+description.draught+"</td></tr>"+
-    	"<tr><td id='tdfirst'>Ziel</td>"+ 	"<td id='tdsecond'>"+description.pod+"</td></tr>"+
-		"</table>" +
-		"</td><td id='table-display-pic' >" +
-       	description.pic+   
-		"</td></tr></table>" +
-		"</dl>" +
+       	" <span class='vesselname'>"+ cnvrt2Upper(vesselinfo.name) + "<span class=\"vessel-type\">" + translate(vesselinfo.type) + "</span></span>" +    	
+			"<dl class='table-display'>"+
+			    "<dt>L&auml;nge x Breite</dt>"+
+			    "<dd>"+ Math.round(vesselinfo.length) + "m x " + Math.round(vesselinfo.width)+"m</dd>"+
+			    "<dt>Status</dt>"+
+			    "<dd>"+translate(vesselinfo.status)+"</dd>"+
+			    "<dt>Geschwindigkeit</dt>"+
+			    "<dd>"+vesselinfo.speed+"kn</dd>"+
+			    "<dt>Kurs / Richtung</dt>"+
+			    "<dd>"+vesselinfo.course+"&deg; / "+ direction[vesselinfo.icon]+"</dd>"+
+			    "<dt>Tiefgang</dt>"+
+			    "<dd>"+description.draught+"</dd>"+
+			    "<dt>Ziel</dt>"+
+			    "<dd>"+description.pod+"</dd>"+
+		    "</dl>"+
+		    "<div class=\"origin\">AIS Daten von www.ThomasKnauf.de</div>" +
     	"</div>";
 
 	//console.log(content);

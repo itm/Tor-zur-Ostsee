@@ -1,5 +1,7 @@
 *.sublime-*
 .project
+.classpath
+.settings
 data.xml
 proxy.js
 js/configuration.js
