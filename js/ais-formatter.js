@@ -2,7 +2,7 @@ var translations = new Array();
 
 // states
 translations["MOORED"] = "angelegt";
-translations["MOVING"] = "fahrend";
+translations["MOOVING"] = "fahrend";
 translations["WAITING"] = "wartend";
 translations["ANCHORAGE"] = "vor Anker";
 translations["UNKNOWN"] = "unbekannt";
