@@ -68,13 +68,8 @@ public class Main implements DecodedAISMessageHandler {
 	
 	private boolean isTooOld(VesselData data) {
 		// 10 minutes
-		long max = 10 * 60 * 1000;
+		long max = 40 * 60 * 1000;
 		return (new Date().getTime()-data.getLastUpdate().getTime()) > max;
-	}
-	
-	private boolean isOutOfScope(VesselData data) {
-		// TODO implement Luebeck area check
-		return false;
 	}
 	
 	public String getXML() {
