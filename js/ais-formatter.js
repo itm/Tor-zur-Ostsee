@@ -117,7 +117,7 @@ var createMarkerContent = function(vesselinfo) {
 			    "<dt>Geschwindigkeit</dt>"+
 			    "<dd>"+vesselinfo.speed+"kn</dd>"+
 			    "<dt>Kurs / Richtung</dt>"+
-			    "<dd>"+vesselinfo.course+"&deg; / "+ direction[vesselinfo.icon]+"</dd>"+
+			    "<dd>"+vesselinfo.heading+"&deg; / "+ direction[vesselinfo.icon]+"</dd>"+
 			    "<dt>Tiefgang</dt>"+
 			    "<dd>"+description.draught+"</dd>"+
 			    "<dt>Ziel</dt>"+

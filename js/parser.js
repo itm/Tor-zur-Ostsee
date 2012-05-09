@@ -61,7 +61,7 @@ var parseXml = function(xmlDoc) {
 		vessel.pic 			= this.getAttribute("p");
 		vessel.lastSeen 	= this.getAttribute("last_seen");
 		vessel.draught		= this.getAttribute("draught");
-		vessel.pod			= this.getAttribute("dest");
+		vessel.pod			= this.getAttribute("destination");
 		vessel.eta			= this.getAttribute("eta");
 
 		vesselinfo.push(vessel);

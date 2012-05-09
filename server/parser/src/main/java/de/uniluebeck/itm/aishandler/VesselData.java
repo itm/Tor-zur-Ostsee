@@ -39,7 +39,7 @@ public class VesselData {
 		imo = msg.getImo().getIMO();
 		destination = msg.getDestination().replace("@", "").trim();
 		length = msg.getToBow() + msg.getToStern();
-		width = msg.getToStern() + msg.getToStarboard();
+		width = msg.getToPort() + msg.getToStarboard();
 	}
 
 	private String formatType(ShipType shipType) {
