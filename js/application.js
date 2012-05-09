@@ -103,8 +103,8 @@ function initShowCam(map) {
 
 function initMap() {
 	var myOptions = {
-		zoom : 14,
-		center : new google.maps.LatLng(53.890582, 10.701184),
+		zoom : 12,
+		center : new google.maps.LatLng(53.95, 10.85),
 		mapTypeId : google.maps.MapTypeId.TERRAIN,
 		disableDefaultUI: true
 	};
@@ -112,31 +112,14 @@ function initMap() {
 	
 	// add Logo
 	var logoDiv = document.createElement('DIV');
-	$(logoDiv).html('<img alt="logo" src="img/logo.png" />');
-	map.controls[google.maps.ControlPosition.TOP_LEFT].push(logoDiv);
+	$(logoDiv).html('<img alt="logo" src="img/logo.png"/>');
+	//map.controls[google.maps.ControlPosition.TOP_LEFT].push(logoDiv);
 	
 	// add an area to show a warning in case that no AIS data is available
 	$("#noAISDataOverlay").hide();
 	map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById("noAISDataOverlay"));
 	
 	return map;
-}
-
-function initButtons(map) {
-	$("#radio form").buttonset();
-	var elems = $("#radio input[type=radio]");
-	elems.click(function(ev) {
-		var lat_sw = parseFloat($(ev.target).data("lat-sw"));
-		var lon_sw = parseFloat($(ev.target).data("long-sw"));
-		var lat_ne = parseFloat($(ev.target).data("lat-ne"));
-		var lon_ne = parseFloat($(ev.target).data("long-ne"));
-		var sw = new google.maps.LatLng(lat_sw, lon_sw);
-		var ne = new google.maps.LatLng(lat_ne, lon_ne);
-		var bounds = new google.maps.LatLngBounds(sw, ne);
-		map.fitBounds(bounds);
-	});
-  
-	return elems;
 }
 
 function clearMarker() {

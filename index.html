@@ -27,8 +27,7 @@
 			$(function() {
 
 				map = initMap();
-				infowindow = new google.maps.InfoWindow({disableAutoPan: false});
-				var elems = initButtons(map);
+				infowindow = new google.maps.InfoWindow();
 				
 				if (showShowCam){
 					initShowCam(map);
@@ -46,44 +45,6 @@
 		</script>
 	</head>
 	<body>
-	<div id="radio">
-		<form>
-			<input type="radio" id="radio1" name="radio" checked="checked"
-				data-lat-sw="53.854349" data-long-sw="10.647726" 
-				data-lat-ne="53.878946" data-long-ne="10.732956" 
-			/>
-			<label for="radio1">Altstadt</label>
-			
-			<input type="radio" id="radio3" name="radio"
-				data-lat-sw="53.878643" data-long-sw="10.647297" 
-				data-lat-ne="53.900596" data-long-ne="10.735517" 
-			/>
-			<label for="radio3">Konstinkai, Nordlandkai</label>
-
-			<input type="radio" id="radio2" name="radio"
-				data-lat-sw="53.887952" data-long-sw="10.734844" 
-				data-lat-ne="53.908484" data-long-ne="10.833721" 
-			/>
-			<label for="radio2">Lehmannkai, Seelandkai, Terminal Schlutup</label>
-			
-			<input type="radio" id="radio4" name="radio"
-				data-lat-sw="53.936132" data-long-sw="10.838563" 
-				data-lat-ne="53.952627" data-long-ne="10.877616" 
-			/>
-			<label for="radio4">Skandinavienkai</label>
-			
-			<input type="radio" id="radio5" name="radio"
-				data-lat-sw="53.952321" data-long-sw="10.856527" 
-				data-lat-ne="53.96366" data-long-ne="10.894" 
-			/>
-			<label for="radio5">Travem&uuml;nde</label>
-			
-		</form>
-		<div style="position:absolute; right:128px; top:10px;">		
-			<button id="show-cam">Kamera auf der Passat Travem&uuml;nde</button>
-		</div>
-		
-	</div>
 	<div id="map_canvas" style="width:100%; height:92%"></div>
 	
 	<div style="display:none">
