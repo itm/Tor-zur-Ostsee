@@ -6,3 +6,4 @@ data.xml
 proxy.js
 js/configuration.js
 target/
+*.log
