@@ -18,7 +18,7 @@ public class TinyHttpServer extends Thread {
 			OutputStreamWriter out = new OutputStreamWriter(client.getOutputStream());
 			try {
 				String s, path;
-				while ((s = in.readLine()).length() > 0) {
+				while ((s = in.readLine()) != null) {
 					if (s.startsWith("GET")) {
 						path = (s.split(" "))[1];
 						processRequest(path, out);
