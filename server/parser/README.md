@@ -7,6 +7,3 @@ The first argument when starting the program is the TCP port the data will be pu
 
 Can be packaged to a single jar containing all dependencies via
 ``mvn package``
-
-Can be run without prior packaging via
-``mvn test``

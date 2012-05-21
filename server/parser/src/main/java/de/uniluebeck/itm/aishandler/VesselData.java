@@ -100,7 +100,7 @@ public class VesselData {
 			return "MOORED";
 		case UnderwaySailing:
 		case UnderwayUsingEngine:
-			return "MOOVING";
+			return "MOVING";
 		case AtAnchor:
 			return "ANCHORAGE";
 		case NotDefined:
