@@ -100,8 +100,10 @@ var createMarkerContent = function(vesselinfo) {
         						"</a>":"";
 
 	description.draught = ((vesselinfo.draught != null) && (vesselinfo.draught != "null")) ? vesselinfo.draught.replace(".", ",")+" m" : noInfoText;
-	
-	description.pod = (vesselinfo.pod != null) ? $.trim(cnvrt2Upper(vesselinfo.pod)) : noInfoText;
+
+	console.log(vesselinfo.destination);
+	description.pod = (vesselinfo.destination != null) ? $.trim(cnvrt2Upper(vesselinfo.destination)) : noInfoText;
+
 	if (description.pod.length == 0 || description.pod == "Ziel"){
 		description.pod = noInfoText;
 	}
