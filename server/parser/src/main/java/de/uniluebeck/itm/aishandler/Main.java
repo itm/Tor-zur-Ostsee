@@ -100,7 +100,7 @@ public class Main implements DecodedAISMessageHandler {
 				child.setAttribute("imo", data.getImo()+"");
 				child.setAttribute("destination", data.getDestination());
 				child.setAttribute("th", data.getTrueHeading()+"");
-				child.setAttribute("th", data.getCourseOverGround()+"");
+				child.setAttribute("cog", data.getCourseOverGround()+"");
 				child.setAttribute("speed", data.getSpeed()+"");
 				child.setAttribute("width", data.getWidth()+"");
 				child.setAttribute("length", data.getLength()+"");
