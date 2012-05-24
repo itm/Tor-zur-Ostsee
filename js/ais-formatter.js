@@ -76,20 +76,26 @@ var cnvrt2Upper = function (str) {
 	}
 }
 
-var createMarkerContent = function(vesselinfo) {
+var getDirection = function(cog) {
+  if ( cog > 45-22.5 && cog < 45+22.5)
+    return "Nordost";
+  else if  ( cog > 90-22.5 && cog < 90+22.5)
+    return "Ost";
+  else if  ( cog > 135-22.5 && cog < 135+22.5)
+    return "S&uuml;dost";
+  else if  ( cog > 180-22.5 && cog < 180+22.5)
+    return "S&uuml;d";
+  else if  ( cog > 225-22.5 && cog < 225+22.5)
+    return "S&uuml;dwest";
+  else if  ( cog > 270-22.5 && cog < 270+22.5)
+    return "West";
+  else if  ( cog > 315-22.5 && cog < 315+22.5)
+    return "Nordwest";
+  else
+    return "Nord";
+}
 
-	var direction = new Array();
-	direction["7"] = "Nordwest";
-	direction["8"] = "Nord";
-	direction["9"] = "Nordost";
-	direction["6"] = "0st";
-	direction["3"] = "S&uuml;dost";
-	direction["2"] = "S&uuml;d";
-	direction["1"] = "S&uuml;dwest";
-	direction["4"] = "West";
-	direction["5"] = "unbekannt";
-	
-	
+var createMarkerContent = function(vesselinfo) {
 	// get optional content
 	var description = new Object();
 	var imagePos = "centered"
@@ -101,7 +107,6 @@ var createMarkerContent = function(vesselinfo) {
 
 	description.draught = ((vesselinfo.draught != null) && (vesselinfo.draught != "null")) ? vesselinfo.draught.replace(".", ",")+" m" : noInfoText;
 
-	console.log(vesselinfo.destination);
 	description.pod = (vesselinfo.destination != null) ? $.trim(cnvrt2Upper(vesselinfo.destination)) : noInfoText;
 
 	if (description.pod.length == 0 || description.pod == "Ziel"){
@@ -119,7 +124,7 @@ var createMarkerContent = function(vesselinfo) {
 			    "<dt>Geschwindigkeit</dt>"+
 			    "<dd>"+vesselinfo.speed+"kn</dd>"+
 			    "<dt>Kurs / Richtung</dt>"+
-			    "<dd>"+vesselinfo.heading+"&deg; / "+ direction[vesselinfo.icon]+"</dd>"+
+			    "<dd>"+vesselinfo.course+"&deg; / "+ getDirection(vesselinfo.course)+"</dd>"+
 			    "<dt>Tiefgang</dt>"+
 			    "<dd>"+description.draught+"</dd>"+
 			    "<dt>Ziel</dt>"+
