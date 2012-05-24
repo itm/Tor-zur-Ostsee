@@ -24,6 +24,7 @@ translations["rescue\_vessels"] = "SAR-Schiff";
 translations["towing\_vessels"] = "Schlepper";
 //translations["ekranoplans"] = "Bodeneffektfahrzeug";
 translations["others"] = "Sonstiges Schiff";
+translations["NotAvailable"] = "";
 
 
 var translate = function(ais_description) {
