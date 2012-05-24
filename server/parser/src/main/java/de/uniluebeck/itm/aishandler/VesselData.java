@@ -22,6 +22,7 @@ public class VesselData {
 	private Long imo;
 	private String destination;
 	private int trueHeading;
+	private float course;
 	private float speed;
 	private int length;
 	private int width;
@@ -49,6 +50,11 @@ public class VesselData {
 		
 		switch (shipType) {
 		case Cargo:
+		case CargoNoAdditionalInfo:
+		case CargoHazardousA:
+		case CargoHazardousB:
+		case CargoHazardousC:
+		case CargoHazardousD:	
 			return "cargo_ships";
 		case Tanker:
 			return "tankships";
@@ -88,6 +94,7 @@ public class VesselData {
 		lng = msg.getLongitude();
 		lat = msg.getLatitude();
 		trueHeading = msg.getTrueHeading();
+		course = msg.getCourseOverGround();
 		speed = msg.getSpeedOverGround();
 	}
 	
@@ -165,6 +172,10 @@ public class VesselData {
 	
 	public int getTrueHeading() {
 		return trueHeading;
+	}
+	
+	public int getCourseOverGround() {
+		return (int) course;
 	}
 	
 	public float getSpeed() {
