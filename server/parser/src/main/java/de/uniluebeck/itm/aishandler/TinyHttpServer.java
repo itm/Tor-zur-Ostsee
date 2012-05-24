@@ -18,17 +18,19 @@ public class TinyHttpServer extends Thread {
 			OutputStreamWriter out = new OutputStreamWriter(client.getOutputStream());
 			try {
 				String s, path;
-				while ((s = in.readLine()) != null) {
+				while (in.ready() && (s = in.readLine()) != null) {
 					if (s.startsWith("GET")) {
 						path = (s.split(" "))[1];
 						processRequest(path, out);
+						out.close();
+						return;
 					}
 				}
 			} catch (Exception e) {
 				out.write("HTTP/1.0 404 ERROR\n\n");
+				out.close();
 				e.printStackTrace();
 			}
-			out.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
